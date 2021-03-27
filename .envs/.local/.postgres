@@ -1,0 +1,7 @@
+# PostgreSQL
+# ------------------------------------------------------------------------------
+POSTGRES_HOST=postgres
+POSTGRES_PORT=5432
+POSTGRES_DB=quiniela
+POSTGRES_USER=tLalBAtPVsyJSuBtUOaByOAZsotMsXCZ
+POSTGRES_PASSWORD=qisIlIjZYYwVtIB8KUiCrUUuK9BwybvUUfpeH8r2X9QKkiWOItbQbl1x94TY9qme
