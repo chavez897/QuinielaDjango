@@ -51,7 +51,7 @@ class UserLoginTokenPairSerializer(TokenObtainSerializer):
         if user is None:
             raise exceptions.AuthenticationFailed("Revise sus credenciales")
 
-        print(len(UserProfile.objects.all()))
+        print(UserProfile.objects.get(user=user))
         userProfile = UserProfile.objects.get(user=user)
         role = UserProfileRole.objects.get(pk=userProfile.role)
 
@@ -181,10 +181,6 @@ class UserSignUpSerializer(serializers.Serializer):
         min_length=0, max_length=45, allow_blank=True, required=False
     )
     role = serializers.CharField(required=True, max_length=24)
-    redirect_url = serializers.CharField(
-        min_length=1,
-        max_length=255,
-    )
 
     def validate(self, data):
         """Validación de contraseña."""
@@ -206,19 +202,16 @@ class UserSignUpSerializer(serializers.Serializer):
         data.pop("password_confirmation")
         request = self.context.get("request")
         role = data.pop("role")
-        url = data.pop("redirect_url")
         role_obj = UserProfileRole.objects.get(role=role)
         user = User.objects.create_user(**data)
         UserProfile.objects.create(
             user=user,
             role=role_obj,
-            shop=shop_obj,
         )
         # Registra el registro
         userProfile = UserProfile.objects.get(user=user)
         role = UserProfileRole.objects.get(pk=userProfile.role)
         # manda email para verificación
-        login_url = "{}{}".format(url, "auth/login")
         # transaction.on_commit(
         #     lambda: send_verify_account_email.delay(
         #         user_pk=user.pk, full_path_domain=login_url
