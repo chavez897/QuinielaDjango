@@ -1,0 +1,63 @@
+{
+  "name": "quiniela-front",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint"
+  },
+  "dependencies": {
+    "axios": "^0.21.1",
+    "compression-webpack-plugin": "^6.0.3",
+    "core-js": "^3.6.5",
+    "eslint-plugin-prettier-vue": "^2.1.1",
+    "vue-router": "^3.4.8",
+    "vee-validate": "^3.4.5",
+    "vue": "^2.6.11",
+    "vuesax": "^3.12.2",
+    "vuex": "^3.5.1",
+    "vuex-persist": "^3.1.3"
+  },
+  "devDependencies": {
+    "@babel/plugin-syntax-dynamic-import": "^7.8.3",
+    "@babel/plugin-transform-runtime": "^7.8.3",
+    "@tailwindcss/custom-forms": "^0.1.4",
+    "@vue/cli-plugin-babel": "^4.5.12",
+    "@vue/cli-plugin-eslint": "^4.5.12",
+    "@vue/cli-service": "^4.5.12",
+    "axios-mock-adapter": "^1.17.0",
+    "babel-eslint": "^10.0.3",
+    "eslint": "^6.8.0",
+    "eslint-config-prettier": "^6.12.0",
+    "eslint-plugin-prettier-vue": "^2.1.1",
+    "eslint-plugin-vue": "^6.2.2",
+    "node-sass": "^4.12.0",
+    "prettier": "^2.1.2",
+    "purgecss": "^1.3.0",
+    "sass-loader": "^8.0.0",
+    "script-loader": "0.7.2",
+    "simple-progress-webpack-plugin": "^1.1.2",
+    "tailwindcss": "^1.0.1",
+    "vue-template-compiler": "^2.6.10"
+  },
+  "eslintConfig": {
+    "root": true,
+    "env": {
+      "node": true
+    },
+    "extends": [
+      "plugin:vue/essential",
+      "eslint:recommended"
+    ],
+    "parserOptions": {
+      "parser": "babel-eslint"
+    },
+    "rules": {}
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead"
+  ]
+}

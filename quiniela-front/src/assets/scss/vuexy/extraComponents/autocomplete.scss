@@ -1,0 +1,24 @@
+@import '../_variables.scss';
+
+pre.selected.hljs {
+  margin: 8px 0;
+  height: 295px;
+  overflow: auto;
+  border: 1px solid rgba(0,0,0,.2);
+  border-radius: 5px;
+  padding: 1rem;
+}
+
+.theme-dark {
+  .vx-card {
+
+    pre.selected.hljs {
+      border-color: #414561 !important;
+    }
+  }
+
+  pre.selected.hljs {
+    border-color: #414561 !important;
+  }
+
+}

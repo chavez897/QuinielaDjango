@@ -1,0 +1,40 @@
+@import '../vuexy/_variables.scss';
+.sidebar-shop-container {
+  width: 356px;
+  max-width: 356px;
+
+  .sidebar-shop {
+    .vs-sidebar.vs-sidebar-primary.vs-sidebar-parent {
+      height: auto !important;
+    }
+    .price-slider {
+      min-width: unset;
+    }
+    .filter-input {
+      &--divider:after {
+        color: #707070;
+        line-height: 2px;
+        margin: 0 3px;
+        padding: 12px 0;
+        font-size: 10px;
+        content: '\2014';
+      }
+    }
+  }
+  .vue-ads-flex {
+    button.vue-ads-leading-normal {
+      background-color: rgba($grey-light, 0.5);
+      &:hover {
+        background-color: $grey-light;
+      }
+    }
+    &.vue-ads-m-2.vue-ads-px-0.vue-ads-text-xs {
+      flex-direction: column;
+      justify-content: center;
+      > div {
+        justify-content: center;
+        text-align: center;
+      }
+    }
+  }
+}
