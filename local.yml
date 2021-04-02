@@ -4,6 +4,13 @@ volumes:
   local_postgres_data: {}
   local_postgres_data_backups: {}
 
+networks:
+  quiniela_network_local:
+    name: quiniela_network_local
+    driver: bridge
+    ipam:
+      driver: default
+
 services:
   django: &django
     build:
@@ -22,6 +29,10 @@ services:
     ports:
       - "8000:8000"
     command: /start
+    networks:
+      quiniela_network_local:
+        aliases:
+          - django
 
   postgres:
     build:
@@ -34,32 +45,28 @@ services:
       - local_postgres_data_backups:/backups:z
     env_file:
       - ./.envs/.local/.postgres
-
-  docs:
-    image: quiniela_local_docs
-    container_name: docs
-    build:
-      context: .
-      dockerfile: ./compose/local/docs/Dockerfile
-    env_file:
-      - ./.envs/.local/.django
-    volumes:
-      - ./docs:/docs:z
-      - ./config:/app/config:z
-      - ./quiniela:/app/quiniela:z
-    ports:
-      - "7000:7000"
-    command: /start-docs
+    networks:
+      quiniela_network_local:
+        aliases:
+          - postgres
 
   mailhog:
     image: mailhog/mailhog:v1.0.0
     container_name: mailhog
     ports:
       - "8025:8025"
+    networks:
+      quiniela_network_local:
+        aliases:
+          - mailhog
 
   redis:
     image: redis:5.0
     container_name: redis
+    networks:
+      quiniela_network_local:
+        aliases:
+          - redis
 
   celeryworker:
     <<: *django
@@ -71,6 +78,10 @@ services:
       - mailhog
     ports: []
     command: /start-celeryworker
+    networks:
+      quiniela_network_local:
+        aliases:
+          - celeryworker
 
   celerybeat:
     <<: *django
@@ -82,6 +93,10 @@ services:
       - mailhog
     ports: []
     command: /start-celerybeat
+    networks:
+      quiniela_network_local:
+        aliases:
+          - celerybeat
 
   flower:
     <<: *django
@@ -90,3 +105,26 @@ services:
     ports:
       - "5555:5555"
     command: /start-flower
+    networks:
+      quiniela_network_local:
+        aliases:
+          - flower
+  
+  front:
+    build:
+      context: .
+      dockerfile: compose/local/node/Dockerfile
+    image: quiniela_local_front
+    container_name: quiniela_local_front
+    depends_on:
+      - django
+    volumes:
+      - "./quiniela-front/:/app"
+      - "/app/node_modules"
+    ports:
+      - "3000:3000"
+    command: /bin/sh -c "yarn serve"
+    networks:
+      quiniela_network_local:
+        aliases:
+          - front
