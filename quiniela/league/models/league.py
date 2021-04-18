@@ -23,6 +23,19 @@ class League(BaseModel):
         null=True,
     )
 
+    is_public = models.BooleanField(
+        verbose_name="Publica",
+        default=True,
+    )
+    
+    enroll_code = models.CharField(
+        verbose_name="Codigo Inscripción",
+        max_length=120,
+        blank=True,
+        null=True,
+    )
+
+
     def save(self, *args, **kwargs):
         if self.slug == "na":
             self.slug = slugify(self.name)

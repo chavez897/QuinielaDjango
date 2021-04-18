@@ -21,6 +21,16 @@ class UserProfileModelSerializer(serializers.ModelSerializer):
         )
 
 
+class UserProfilePlayerSerializer(serializers.ModelSerializer):
+    """ User Profile Model Serializer. """
+    class Meta:
+        model = UserProfile
+        fields = (
+            "id",
+            "picture",
+        )
+
+
 class UserModelSerializer(serializers.ModelSerializer):
     """ UserModelSerializer."""
 
@@ -43,3 +53,21 @@ class UserModelSerializer(serializers.ModelSerializer):
 
     def create(self, validated_date):
         return super(UserModelSerializer, self).create(validated_date)
+
+
+class UserPlayerSerializer(serializers.ModelSerializer):
+    """ UserModelSerializer."""
+
+    userprofile = UserProfilePlayerSerializer()
+
+    class Meta:
+        model = User
+        fields = (
+            "id",
+            "username",
+            "name",
+            "last_name",
+            "second_last_name",
+            "email",
+            "userprofile",
+        )

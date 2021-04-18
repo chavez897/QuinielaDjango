@@ -11,12 +11,14 @@ class LeagueModelSerializer(serializers.ModelSerializer):
             "name",
             "slug",
             "picture",
+            "is_public",
         ]
 
 
 class EnrollLeagueSerializer(serializers.Serializer):
     id_league = serializers.IntegerField(required=True)
     id_user = serializers.IntegerField(required=True)
+    enroll_code = serializers.CharField(required=True, allow_null=True)
 
     def validate(self, attrs):
         if not League.objects.filter(id=attrs['id_league']).exists():
@@ -27,6 +29,10 @@ class EnrollLeagueSerializer(serializers.Serializer):
         league = League.objects.get(id=attrs['id_league'])
         if league in user.leagues.all():
             raise serializers.ValidationError({"enroll": "Ya esta inscrito a esa liga"})
+        if not league.is_public:
+            if attrs["enroll_code"] != league.enroll_code:
+                raise serializers.ValidationError({"enroll_code": "Código incorrecto"})
         user.leagues.add(league)
         return attrs
+
 
