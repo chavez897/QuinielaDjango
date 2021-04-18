@@ -61,6 +61,12 @@ class UserProfile(BaseModel):
         to="users.UserProfileRole",
         default="admin",
     )
+    leagues = models.ManyToManyField(
+        verbose_name="Ligas",
+        to="league.League",
+        blank=True,
+        null=True,
+    )
     created_by = None
     modified_by = None
 

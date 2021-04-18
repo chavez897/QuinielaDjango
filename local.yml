@@ -17,7 +17,7 @@ services:
       context: .
       dockerfile: ./compose/local/django/Dockerfile
     image: quiniela_local_django
-    container_name: django
+    container_name: django_quiniela
     depends_on:
       - postgres
       - mailhog
@@ -39,12 +39,14 @@ services:
       context: .
       dockerfile: ./compose/production/postgres/Dockerfile
     image: quiniela_production_postgres
-    container_name: postgres
+    container_name: postgres_quiniela
     volumes:
       - local_postgres_data:/var/lib/postgresql/data:Z
       - local_postgres_data_backups:/backups:z
     env_file:
       - ./.envs/.local/.postgres
+    ports:
+      - "5400:5432"
     networks:
       quiniela_network_local:
         aliases:
@@ -52,7 +54,7 @@ services:
 
   mailhog:
     image: mailhog/mailhog:v1.0.0
-    container_name: mailhog
+    container_name: mailhog_quiniela
     ports:
       - "8025:8025"
     networks:
@@ -62,7 +64,7 @@ services:
 
   redis:
     image: redis:5.0
-    container_name: redis
+    container_name: redis_quiniela
     networks:
       quiniela_network_local:
         aliases:
@@ -71,7 +73,7 @@ services:
   celeryworker:
     <<: *django
     image: quiniela_local_celeryworker
-    container_name: celeryworker
+    container_name: celeryworker_quiniela
     depends_on:
       - redis
       - postgres
@@ -86,7 +88,7 @@ services:
   celerybeat:
     <<: *django
     image: quiniela_local_celerybeat
-    container_name: celerybeat
+    container_name: celerybeat_quiniela
     depends_on:
       - redis
       - postgres
@@ -101,7 +103,7 @@ services:
   flower:
     <<: *django
     image: quiniela_local_flower
-    container_name: flower
+    container_name: flower_quiniela
     ports:
       - "5555:5555"
     command: /start-flower
@@ -110,21 +112,3 @@ services:
         aliases:
           - flower
   
-  front:
-    build:
-      context: .
-      dockerfile: compose/local/node/Dockerfile
-    image: quiniela_local_front
-    container_name: quiniela_local_front
-    depends_on:
-      - django
-    volumes:
-      - "./quiniela-front/:/app"
-      - "/app/node_modules"
-    ports:
-      - "3000:3000"
-    command: /bin/sh -c "yarn serve"
-    networks:
-      quiniela_network_local:
-        aliases:
-          - front

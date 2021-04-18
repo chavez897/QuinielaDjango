@@ -1,5 +1,7 @@
 from django.conf import settings
+from django.urls import include, path
 from rest_framework.routers import DefaultRouter, SimpleRouter
+from rest_framework_simplejwt.views import TokenRefreshView
 
 from quiniela.users.views.users import UserViewSet
 from quiniela.users.views.auth import (
@@ -19,4 +21,29 @@ router.register("users", UserViewSet)
 
 
 app_name = "api"
-urlpatterns = router.urls
+urlpatterns = [
+    path("", include((router.urls, "auth"), namespace="auth")),
+    path(
+        "token/",
+        include(
+            [  # noqa DJ05
+                path("refresh/", TokenRefreshView.as_view(), name="token_refresh")
+            ]
+        ),
+    ),
+    path(
+        "", 
+        include(
+            [
+                path(
+                    "",
+                    include(
+                        ("quiniela.league.urls", "league"),
+                        namespace="league",
+                    ),
+                ),
+            ]
+        ),
+    ),
+
+]
