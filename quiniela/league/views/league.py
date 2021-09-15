@@ -6,7 +6,6 @@ from rest_framework.response import Response
 from quiniela.league.models.league import League
 from quiniela.league.serializers.league import LeagueModelSerializer, EnrollLeagueSerializer
 from quiniela.league.serializers.userprofile_league_enrollment import UserprofileLeagueEnrollmentModelSerializer
-from quiniela.users.models import UserProfile
 from quiniela.users.serializers.users import UserPlayerSerializer
 from quiniela.league.models.userprofile_league_enrollment import UserprofileLeagueEnrollment
 

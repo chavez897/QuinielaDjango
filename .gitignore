@@ -271,8 +271,11 @@ quiniela/media/
 
 .pytest_cache/
 
-
+.idea/
 .ipython/
-.env
-.envs/*
-!.envs/.local/
+.env
+
+.envs/*
+
+!.envs/.local/
+

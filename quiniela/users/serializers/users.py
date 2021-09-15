@@ -3,31 +3,18 @@ from django.contrib.auth import get_user_model
 from rest_framework import serializers
 
 from quiniela.users.models import UserProfile
-from quiniela.league.serializers.userprofile_league_enrollment import UserprofileLeagueEnrollmentModelSerializer
 
 User = get_user_model()
 
 
 class UserProfileModelSerializer(serializers.ModelSerializer):
-    """ User Profile Model Serializer. """
-    leagues = UserprofileLeagueEnrollmentModelSerializer(many=True, read_only=True)
+
     class Meta:
         model = UserProfile
         fields = (
             "id",
             "picture",
-            "leagues",
             "role",
-        )
-
-
-class UserProfilePlayerSerializer(serializers.ModelSerializer):
-    """ User Profile Model Serializer. """
-    class Meta:
-        model = UserProfile
-        fields = (
-            "id",
-            "picture",
         )
 
 
@@ -58,8 +45,6 @@ class UserModelSerializer(serializers.ModelSerializer):
 class UserPlayerSerializer(serializers.ModelSerializer):
     """ UserModelSerializer."""
 
-    userprofile = UserProfilePlayerSerializer()
-
     class Meta:
         model = User
         fields = (
@@ -69,5 +54,17 @@ class UserPlayerSerializer(serializers.ModelSerializer):
             "last_name",
             "second_last_name",
             "email",
-            "userprofile",
+        )
+
+
+class UserProfilePlayerSerializer(serializers.ModelSerializer):
+    """ User Profile Model Serializer. """
+    user = UserPlayerSerializer()
+
+    class Meta:
+        model = UserProfile
+        fields = (
+            "id",
+            "picture",
+            "user",
         )
