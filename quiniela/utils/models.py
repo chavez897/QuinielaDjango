@@ -30,10 +30,10 @@ class CustomAbstractUser(AbstractBaseUser, PermissionsMixin):
             "unique": _("A user with that username already exists."),
         },
     )
-    name = models.CharField("Nombres", max_length=120, blank=True)
-    last_name = models.CharField(_("Apellido paterno"), max_length=45, blank=True)
+    name = models.CharField("Names", max_length=120, blank=True)
+    last_name = models.CharField(_("Last Name"), max_length=45, blank=True)
     second_last_name = models.CharField(
-        "Apellido materno", max_length=45, blank=True, default=""
+        "Second last name", max_length=45, blank=True, default=""
     )
     email = models.EmailField(_("email address"), blank=True)
     is_staff = models.BooleanField(
@@ -79,34 +79,26 @@ class BaseModel(models.Model):
     is_active = models.BooleanField(
         _("active"),
         default=True,
-        help_text=(
-            "Indica si el registro debe ser tratado como activo.",
-            "Desmarque esta opción en lugar de borrar el registro",
-        ),
     )
     created_at = models.DateTimeField(
-        verbose_name="Fecha de creación",
+        verbose_name="Creation Date",
         auto_now_add=True,
         blank=True,
         null=True,
-        help_text="Fecha en que el registro fue creado.",
     )
     modified_at = models.DateTimeField(
-        verbose_name="Ultima modificación",
+        verbose_name="Modify Date",
         auto_now=True,
         blank=True,
         null=True,
-        help_text="Última fecha en que el registro fue modificado",
     )
     created_by = models.ForeignKey(
-        verbose_name="Usuario creador",
         to="users.User",
         on_delete=models.CASCADE,
         default=1,
         related_name="%(app_label)s_%(class)s_created",
     )
     modified_by = models.ForeignKey(
-        verbose_name="Usuario editor",
         to="users.User",
         on_delete=models.CASCADE,
         null=True,

@@ -9,7 +9,7 @@ from django.template.defaultfilters import slugify
 class League(BaseModel):
 
     name = models.CharField(
-        verbose_name="Nombre de la liga", max_length=120,
+        verbose_name="League's name", max_length=120,
     )
     slug = models.SlugField(
         max_length=120,
@@ -24,12 +24,12 @@ class League(BaseModel):
     )
 
     is_public = models.BooleanField(
-        verbose_name="Publica",
+        verbose_name="Public",
         default=True,
     )
-    
+
     enroll_code = models.CharField(
-        verbose_name="Codigo Inscripción",
+        verbose_name="Enrollment Code",
         max_length=120,
         blank=True,
         null=True,
@@ -40,6 +40,6 @@ class League(BaseModel):
         if self.slug == "na":
             self.slug = slugify(self.name)
         super().save(*args, **kwargs)
-    
+
     def __str__(self):
         return "{}".format(self.name)
