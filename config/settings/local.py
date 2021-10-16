@@ -13,7 +13,9 @@ SECRET_KEY = env(
     default="bjJFu8O4qzEUvxqGHwOOaVn5Aoe85MJ2RuHJvMprNrHUjBYnqHWdWWTVplaKERCR",
 )
 # https://docs.djangoproject.com/en/dev/ref/settings/#allowed-hosts
-ALLOWED_HOSTS = ["localhost", "0.0.0.0", "127.0.0.1"]
+ALLOWED_HOSTS = [
+    "*",
+]
 
 # CACHES
 # ------------------------------------------------------------------------------
@@ -31,6 +33,9 @@ CACHES = {
 EMAIL_HOST = env("EMAIL_HOST", default="mailhog")
 # https://docs.djangoproject.com/en/dev/ref/settings/#email-port
 EMAIL_PORT = 1025
+
+# CORS
+CORS_ORIGIN_ALLOW_ALL = True
 
 # WhiteNoise
 # ------------------------------------------------------------------------------
@@ -89,3 +94,5 @@ SIMPLE_JWT = {
     "SLIDING_TOKEN_LIFETIME": timedelta(days=1),
     "SLIDING_TOKEN_REFRESH_LIFETIME": timedelta(days=1),
 }
+
+X_FRAME_OPTIONS = "ALLOWALL"

@@ -41,3 +41,9 @@ class LeagueViewSet(
         users = UserprofileLeagueEnrollment.objects.filter(league=league)
         serializer = UserprofileLeagueEnrollmentModelSerializer(users, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+    @action(detail=False, methods=["get"], url_path="my-leagues")
+    def my_leagues(self, request):
+        leagues = UserprofileLeagueEnrollment.objects.filter(userprofile=request.user.userprofile)
+        serializer = UserprofileLeagueEnrollmentModelSerializer(leagues, many=True, context={"request": request})
+        return Response(status=status.HTTP_200_OK, data=serializer.data)

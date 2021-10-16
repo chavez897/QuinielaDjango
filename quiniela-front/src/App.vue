@@ -1,28 +1,27 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue.js App" />
+  <div id="app" class="flex">
+    <transition name="slide-fade">
+      <navbar v-if="isLogged && showNavbar" />
+    </transition>
+    <transition name="slide-fade">
+      <main-sidebar v-if="isLogged" />
+    </transition>
+    <main>
+      <transition name="slide-fade">
+        <router-view />
+      </transition>
+    </main>
+    <transition name="slide-fade">
+      <app-footer />
+    </transition>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
 export default {
   name: 'App',
-  components: {
-    HelloWorld,
+  computed: {
+    ...mapGetters('auth', { isLogged: 'isLogged' }),
   },
 }
 </script>
-
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>

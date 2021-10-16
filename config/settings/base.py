@@ -212,6 +212,7 @@ CSRF_COOKIE_HTTPONLY = True
 SECURE_BROWSER_XSS_FILTER = True
 # https://docs.djangoproject.com/en/dev/ref/settings/#x-frame-options
 X_FRAME_OPTIONS = "DENY"
+XS_SHARING_ALLOWED_METHODS = ["POST", "GET", "OPTIONS", "PUT", "DELETE"]
 
 # EMAIL
 # ------------------------------------------------------------------------------
@@ -321,10 +322,5 @@ REST_FRAMEWORK = {
     "EXCEPTION_HANDLER": "rest_framework_friendly_errors.handlers.friendly_exception_handler",
     "DATETIME_FORMAT": "%Y-%m-%dT%H:%M",
 }
-
-# django-cors-headers - https://github.com/adamchainz/django-cors-headers#setup
-CORS_URLS_REGEX = r"^/api/.*$"
-# Your stuff...
-# ------------------------------------------------------------------------------
 
 JWT_TOKEN_EXP_DAYS = 7

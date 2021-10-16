@@ -189,8 +189,8 @@ module.exports = {
         '5xl': '3rem', // 48px
         '6xl': '4rem', // 64px
         '7x1': '4.5rem', // 80px
-        '8x1': '6rem', 
-        '9x1': '8rem', 
+        '8x1': '6rem',
+        '9x1': '8rem',
       },
 
       /*
