@@ -6,7 +6,6 @@ from rest_framework.response import Response
 from quiniela.league.models.league import League
 from quiniela.league.serializers.league import LeagueModelSerializer, EnrollLeagueSerializer
 from quiniela.league.serializers.userprofile_league_enrollment import UserprofileLeagueEnrollmentModelSerializer
-from quiniela.users.serializers.users import UserPlayerSerializer
 from quiniela.league.models.userprofile_league_enrollment import UserprofileLeagueEnrollment
 
 
@@ -23,7 +22,7 @@ class LeagueViewSet(
     lookup_field = "slug"
 
     def get_permissions(self):
-        permissions = []
+        permissions = [ IsAuthenticated ]
         return (permission() for permission in permissions)
 
     @action(detail=False, methods=["post"], url_path="enroll-league")

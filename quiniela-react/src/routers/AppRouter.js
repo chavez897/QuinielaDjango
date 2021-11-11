@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { BrowserRouter as Router, Switch, Redirect } from "react-router-dom";
 
 import { AuthRouter } from "./AuthRouter";
@@ -12,20 +12,19 @@ import { getUserData } from "../actions/user";
 export const AppRouter = () => {
   const dispatch = useDispatch();
   const [checking, setChecking] = useState(true);
-  const [isLoggedIn, setIsLoaggedIn] = useState(false);
+  const user = useSelector((state) => state.user);
   useEffect(() => {
-    const tokens = localStorage.getItem("tokens");
-    if (tokens !== null && tokens !== undefined) {
-      dispatch(loginAction(JSON.parse(tokens)));
+    const access = localStorage.getItem("access");
+    const refresh = localStorage.getItem("refresh");
+    if (access !== null && access !== undefined) {
+      dispatch(loginAction(access, refresh));
       dispatch(getUserData()).then(() => {
-        setIsLoaggedIn(true);
         setChecking(false);
       });
     } else {
-      setIsLoaggedIn(false);
       setChecking(false);
     }
-  }, [dispatch, setChecking, setIsLoaggedIn]);
+  }, [dispatch, setChecking]);
 
   if (checking) {
     return <h1>Esperando...</h1>;
@@ -37,7 +36,7 @@ export const AppRouter = () => {
         <div>
           <Switch>
             <PublicRoute
-              isAuthenticated={isLoggedIn}
+              isAuthenticated={!!user.username}
               path="/auth"
               component={AuthRouter}
             />
@@ -45,7 +44,7 @@ export const AppRouter = () => {
             <PrivateRoute
               path="/"
               component={PoolRouter}
-              isAuthenticated={isLoggedIn}
+              isAuthenticated={!!user.username}
             />
 
             <Redirect to="/auth/login" />

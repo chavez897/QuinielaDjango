@@ -8,7 +8,6 @@ export const getUserData = () => {
         .get("/api/users/me/")
         .then((res) => {
           dispatch(getUserDataAction(res.data));
-          console.log(res.data.userprofile.picture);
           resolve(res);
         })
         .catch((error) => {
@@ -32,4 +31,9 @@ export const getUserDataAction = (res) => ({
       role: res.userprofile.role,
     },
   },
+});
+
+export const deleteUserAction = () => ({
+  type: types.deleteUser,
+  payload: null,
 });

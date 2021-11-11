@@ -27,6 +27,14 @@ class UserprofileLeagueEnrollment(BaseModel):
         verbose_name="Team's name", max_length=120,
     )
 
+    team_picture = models.ImageField(  # noqa DJ01
+        verbose_name="Team Picture",
+        upload_to="team/picture/%Y/%m/%d/",
+        max_length=1000,
+        blank=True,
+        null=True,
+    )
+
     class Meta:
         verbose_name = "League Enrollment"
         verbose_name_plural = "Leagues Enrollments"

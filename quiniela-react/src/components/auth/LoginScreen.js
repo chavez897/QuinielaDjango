@@ -2,35 +2,67 @@ import React from "react";
 import { login } from "../../actions/auth";
 import { useDispatch } from "react-redux";
 import { getUserData } from "../../actions/user";
+import { useForm } from "../../hooks/useForm";
+import Swal from "sweetalert2";
 
 export const LoginScreen = () => {
   const dispatch = useDispatch();
 
-  const handleSubmit = async (e) => {
+  const [formValues, handleInputChange] = useForm({
+    email: "",
+    password: "",
+  });
+
+  const { email, password } = formValues;
+
+  const handleLogin = (e) => {
     e.preventDefault();
-    dispatch(login("rodrichavezm@gmail.com", "admin12345")).then(() => {
-      dispatch(getUserData()).then(() => {});
+    Swal.fire({
+      title: "Loading...",
+      didOpen: () => {
+        Swal.showLoading();
+      },
     });
+    dispatch(login(email, password))
+      .then(() => {
+        dispatch(getUserData()).then(() => {
+          Swal.close();
+        });
+      })
+      .catch((error) => {
+        Swal.close();
+        const message =
+          error.length <= 0 ? "Error please try again" : error[0].message;
+        Swal.fire({
+          title: "Error",
+          text: message,
+          icon: "error",
+          confirmButtonText: "Ok",
+        });
+      });
   };
   return (
     <div className="h-screen items-center flex bg-blue-900">
       <div className="w-full content-center items-center flex flex-col">
         <form
           className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
-          onSubmit={handleSubmit}
+          onSubmit={handleLogin}
         >
           <div className="mb-4">
             <label
               className="block text-gray-700 text-sm font-bold mb-2"
-              htmlFor="username"
+              htmlFor="email"
             >
               Username
             </label>
             <input
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              id="username"
+              id="email"
               type="text"
-              placeholder="Username"
+              placeholder="email"
+              name="email"
+              value={email}
+              onChange={handleInputChange}
             />
           </div>
           <div className="mb-6">
@@ -41,19 +73,20 @@ export const LoginScreen = () => {
               Password
             </label>
             <input
-              className="shadow appearance-none border border-red-500 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
               id="password"
               type="password"
               placeholder="******************"
+              name="password"
+              value={password}
+              onChange={handleInputChange}
             />
-            <p className="text-red-500 text-xs italic">
-              Please choose a password.
-            </p>
           </div>
           <div className="flex items-center justify-between">
             <button
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline disabled:opacity-25 disabled:cursor-not-allowed"
               type="submit"
+              disabled={email.trim().length <= 0 || password.trim().length <= 0}
             >
               Sign In
             </button>

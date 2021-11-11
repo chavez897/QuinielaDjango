@@ -1,5 +1,6 @@
 /* eslint-disable default-case */
 import axios from "axios";
+import { logout, refresh } from "../actions/auth";
 import { store } from "../store/store";
 
 export const axiosInstance = axios.create({
@@ -7,17 +8,17 @@ export const axiosInstance = axios.create({
 });
 
 // Token Refresh
-// let isAlreadyFetchingAccessToken = false;
-// let subscribers = [];
+let isAlreadyFetchingAccessToken = false;
+let subscribers = [];
 
-// function onAccessTokenFetched(accessToken) {
-//   subscribers = subscribers.filter((callback) => callback(accessToken));
-// }
+function onAccessTokenFetched(accessToken) {
+  subscribers = subscribers.filter((callback) => callback(accessToken));
+}
 
-// function addSubscriber(callback) {
-//   subscribers.push(callback);
-// }
-const { getState } = store;
+function addSubscriber(callback) {
+  subscribers.push(callback);
+}
+const { getState, dispatch } = store;
 
 // Request interceptor
 axiosInstance.interceptors.request.use(
@@ -42,43 +43,45 @@ axiosInstance.interceptors.request.use(
   }
 );
 // Response interceptor
-// axiosInstance.interceptors.response.use(
-//   function (response) {
-//     return response;
-//   },
-//   function (error) {
-//     const { config, response } = error;
-//     const originalRequest = config;
+axiosInstance.interceptors.response.use(
+  function (response) {
+    return response;
+  },
+  function (error) {
+    const { config, response } = error;
+    const originalRequest = config;
 
-//     if (
-//       response &&
-//       response.status === 401 &&
-//       originalRequest.url === `/auth/token/refresh/`
-//     ) {
-//       //store.commit('auth/clearTokens')
-//       isAlreadyFetchingAccessToken = false;
-//       return Promise.reject(error);
-//     } else if (
-//       response &&
-//       response.status === 401 &&
-//       config.url !== "/auth/token/"
-//     ) {
-//       if (!isAlreadyFetchingAccessToken) {
-//         isAlreadyFetchingAccessToken = true;
-//         /*dispatch('auth/refreshToken').then((accessToken) => {
-//           isAlreadyFetchingAccessToken = false
-//           onAccessTokenFetched(accessToken)
-//         })*/
-//       }
+    if (
+      response &&
+      response.status === 401 &&
+      originalRequest.url === `/api/auth/token/refresh/`
+    ) {
+      dispatch(logout());
+      isAlreadyFetchingAccessToken = false;
+      return Promise.reject(error);
+    } else if (
+      response &&
+      response.status === 401 &&
+      config.url !== "/api/auth/token/"
+    ) {
+      if (!isAlreadyFetchingAccessToken) {
+        isAlreadyFetchingAccessToken = true;
+        dispatch(refresh()).then((accessToken) => {
+          isAlreadyFetchingAccessToken = false;
+          onAccessTokenFetched(accessToken);
+        });
+      }
 
-//       const retryOriginalRequest = new Promise((resolve) => {
-//         addSubscriber(() => {
-//           resolve(axios(originalRequest));
-//         });
-//       });
-//       return retryOriginalRequest;
-//     }
+      const retryOriginalRequest = new Promise((resolve) => {
+        addSubscriber(() => {
+          const tokenAccess = getState().tokens.access;
+          originalRequest.headers["Authorization"] = "Bearer " + tokenAccess;
+          resolve(axios(originalRequest));
+        });
+      });
+      return retryOriginalRequest;
+    }
 
-//     return Promise.reject(error);
-//   }
-// );
+    return Promise.reject(error);
+  }
+);

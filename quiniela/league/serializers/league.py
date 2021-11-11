@@ -14,6 +14,7 @@ class LeagueModelSerializer(serializers.ModelSerializer):
             "slug",
             "picture",
             "is_public",
+            "enroll_code",
         ]
 
 

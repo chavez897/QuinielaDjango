@@ -4,4 +4,8 @@ export const types = {
 
   saveTokens: "[Tokens] Save",
   deleteTokens: "[Tokens] Delete",
+  refreshTokens: "[Tokens] Refresh",
+
+  getMyLeagues: "[MyLeagues] Get",
+  deleteMyLeagues: "[MyLeagues] Delete",
 };
