@@ -8,4 +8,6 @@ export const types = {
 
   getMyLeagues: "[MyLeagues] Get",
   deleteMyLeagues: "[MyLeagues] Delete",
+
+  searchLeagues: "[Leagues] Search",
 };

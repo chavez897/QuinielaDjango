@@ -8,6 +8,7 @@ import { PrivateRoute } from "./PrivateRoute";
 import { loginAction } from "../actions/auth";
 import { PoolRouter } from "./PoolRouter";
 import { getUserData } from "../actions/user";
+import { LoadingScreen } from "../components/ui/LoadingScreen";
 
 export const AppRouter = () => {
   const dispatch = useDispatch();
@@ -27,7 +28,7 @@ export const AppRouter = () => {
   }, [dispatch, setChecking]);
 
   if (checking) {
-    return <h1>Esperando...</h1>;
+    return <LoadingScreen />;
   }
 
   return (

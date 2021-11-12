@@ -2,6 +2,7 @@ from rest_framework import mixins, viewsets, status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import action
 from rest_framework.response import Response
+from rest_framework import filters
 
 from quiniela.league.models.league import League
 from quiniela.league.serializers.league import LeagueModelSerializer, EnrollLeagueSerializer
@@ -20,6 +21,14 @@ class LeagueViewSet(
     serializer_class = LeagueModelSerializer
     queryset = League.objects.filter(is_active=True).order_by("name")
     lookup_field = "slug"
+    filter_backends = [
+        filters.SearchFilter,
+    ]
+    # For quick search
+    search_fields = [
+        'name',
+    ]
+
 
     def get_permissions(self):
         permissions = [ IsAuthenticated ]

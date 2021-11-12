@@ -3,6 +3,7 @@ import thunk from "redux-thunk";
 import { userReducer } from "../reducers/userReducer";
 import { tokensReducer } from "../reducers/tokensReducer";
 import { myLeagueReducer } from "../reducers/myLeaguesReducer";
+import { leaguesReducer } from "../reducers/leaguesReducer";
 
 const composeEnhancers =
   (typeof window !== "undefined" &&
@@ -13,6 +14,7 @@ const reducers = combineReducers({
   user: userReducer,
   tokens: tokensReducer,
   myLeagues: myLeagueReducer,
+  leagues: leaguesReducer,
 });
 
 export const store = createStore(
