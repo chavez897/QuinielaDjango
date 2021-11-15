@@ -34,7 +34,7 @@ axiosInstance.interceptors.request.use(
       config.headers.Authorization = `Bearer ${tokenAccess}`;
     }
     // Set locale headers
-    config.headers["Accept-Language"] = "es-es";
+    config.headers["Accept-Language"] = "en-US";
     return config;
   },
   (error) => {

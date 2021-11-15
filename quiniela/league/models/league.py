@@ -9,11 +9,12 @@ from django.template.defaultfilters import slugify
 class League(BaseModel):
 
     name = models.CharField(
-        verbose_name="League's name", max_length=120,
+        verbose_name="League's name", max_length=120,unique=True,
     )
     slug = models.SlugField(
         max_length=120,
         default="na",
+        unique=True,
     )
     picture = models.ImageField(  # noqa DJ01
         verbose_name="Avatar",

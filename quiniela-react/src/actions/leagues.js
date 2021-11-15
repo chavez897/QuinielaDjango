@@ -17,6 +17,23 @@ export const searchLeagues = (search) => {
   };
 };
 
+export const createLeague = (formData) => {
+  return new Promise((resolve, reject) => {
+    axiosInstance
+      .post(`/api/league/`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .then((res) => {
+        resolve(res.data);
+      })
+      .catch((error) => {
+        reject(error.response.data.errors);
+      });
+  });
+};
+
 export const searchLeaguesAction = (res) => ({
   type: types.searchLeagues,
   payload: res,
