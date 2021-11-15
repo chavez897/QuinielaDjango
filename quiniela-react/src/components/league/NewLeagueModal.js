@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { useLocation } from "react-router";
 import { createLeague } from "../../actions/leagues";
 import { useForm } from "../../hooks/useForm";
 import { ErrorModal } from "../ui/ErrorModal";
@@ -6,6 +8,8 @@ import { LoadingModal } from "../ui/LoadingModal";
 import { ModalComponent } from "../ui/ModalComponent";
 import { SuccessModal } from "../ui/SuccessModal";
 import { NewLeagueForm } from "./NewLeagueForm";
+import queryString from "query-string";
+import { searchLeagues } from "../../actions/leagues";
 
 export const NewLeagueModal = ({ setNewLeague }) => {
   const [isPrivate, setIsPrivate] = useState(true);
@@ -20,6 +24,9 @@ export const NewLeagueModal = ({ setNewLeague }) => {
   const [error, setError] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
   const { name, code } = formValues;
+  const location = useLocation();
+  const { q = "" } = queryString.parse(location.search);
+  const dispatch = useDispatch();
   useEffect(() => {
     if (isPrivate) {
       setIsFormValid(name.trim().length > 0 && code.trim().length > 0);
@@ -38,6 +45,7 @@ export const NewLeagueModal = ({ setNewLeague }) => {
     }
     createLeague(formdata)
       .then((res) => {
+        dispatch(searchLeagues(q));
         setLoading(false);
         setModalMessage(res.name + " league created!");
         setSuccesfull(true);
