@@ -1,53 +1,51 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import { useLocation } from "react-router";
-import { createLeague } from "../../actions/leagues";
 import { useForm } from "../../hooks/useForm";
-import { ErrorModal } from "../ui/ErrorModal";
-import { LoadingModal } from "../ui/LoadingModal";
 import { ModalComponent } from "../ui/ModalComponent";
+import { EnrollmentLeagueForm } from "./EnrollmentLeagueForm";
+import { useDispatch, useSelector } from "react-redux";
+import { LoadingModal } from "../ui/LoadingModal";
 import { SuccessModal } from "../ui/SuccessModal";
-import { NewLeagueForm } from "./NewLeagueForm";
-import queryString from "query-string";
-import { searchLeagues } from "../../actions/leagues";
+import { ErrorModal } from "../ui/ErrorModal";
+import { enrollLeague } from "../../actions/leagues";
+import { getMyLeagues } from "../../actions/myLeagues";
 
-export const NewLeagueModal = ({ setNewLeague }) => {
-  const [isPrivate, setIsPrivate] = useState(true);
-  const [isFormValid, setIsFormValid] = useState(false);
-  const [selectedPicture, setSelectedPicture] = useState();
+export const LeagueEnrollmentModal = ({ setEnrollment, league }) => {
+  const user = useSelector((state) => state.user);
   const [formValues, handleInputChange] = useForm({
-    name: "",
-    code: "",
+    teamName: "",
+    enrollCode: "",
   });
+  const { teamName, enrollCode } = formValues;
+  const [selectedPicture, setSelectedPicture] = useState();
+  const [isFormValid, setIsFormValid] = useState(false);
   const [loading, setLoading] = useState(false);
   const [succesfull, setSuccesfull] = useState(false);
   const [error, setError] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
-  const { name, code } = formValues;
-  const location = useLocation();
-  const { q = "" } = queryString.parse(location.search);
   const dispatch = useDispatch();
   useEffect(() => {
-    if (isPrivate) {
-      setIsFormValid(name.trim().length > 0 && code.trim().length > 0);
+    if (!league.isPublic) {
+      setIsFormValid(
+        teamName.trim().length > 0 && enrollCode.trim().length > 0
+      );
     } else {
-      setIsFormValid(name.trim().length > 0);
+      setIsFormValid(teamName.trim().length > 0);
     }
-  }, [isPrivate, name, code]);
+  }, [teamName, enrollCode, league]);
+
   const handleSubmit = () => {
     setLoading(true);
     let formdata = new FormData();
-    formdata.append("name", name);
-    formdata.append("isPublic", !isPrivate);
-    formdata.append("enrollCode", isPrivate ? code : null);
-    if (selectedPicture !== null && selectedPicture !== undefined) {
-      formdata.append("picture", selectedPicture);
-    }
-    createLeague(formdata)
+    formdata.append("teamName", teamName);
+    formdata.append("enrollCode", !league.isPublic ? enrollCode : null);
+    formdata.append("teamPicture", selectedPicture);
+    formdata.append("idUser", user.id);
+    formdata.append("idLeague", league.id);
+    enrollLeague(formdata)
       .then((res) => {
-        dispatch(searchLeagues(q));
+        dispatch(getMyLeagues());
         setLoading(false);
-        setModalMessage(res.name + " league created!");
+        setModalMessage("Enroll in League " + league.name + " !");
         setSuccesfull(true);
       })
       .catch((error) => {
@@ -66,7 +64,7 @@ export const NewLeagueModal = ({ setNewLeague }) => {
           message={modalMessage}
           close={() => {
             setSuccesfull(false);
-            setNewLeague(false);
+            setEnrollment(false);
           }}
         />
       ) : null}
@@ -79,14 +77,13 @@ export const NewLeagueModal = ({ setNewLeague }) => {
         />
       ) : null}
       <ModalComponent
-        title="New League"
+        title={league.name}
         accept={handleSubmit}
-        close={() => setNewLeague(false)}
+        close={() => setEnrollment(false)}
         disabled={!isFormValid}
         body={
-          <NewLeagueForm
-            isPrivate={isPrivate}
-            setIsPrivate={setIsPrivate}
+          <EnrollmentLeagueForm
+            isPrivate={!league.isPublic}
             handleInputChange={handleInputChange}
             formValues={formValues}
             selectedPicture={selectedPicture}
