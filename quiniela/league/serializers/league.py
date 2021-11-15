@@ -16,6 +16,9 @@ class LeagueModelSerializer(serializers.ModelSerializer):
             "is_public",
             "enroll_code",
         ]
+        extra_kwargs = {
+            'enroll_code': {'write_only': True},
+        }
 
 
 class EnrollLeagueSerializer(serializers.Serializer):

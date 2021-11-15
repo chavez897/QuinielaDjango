@@ -38,7 +38,7 @@ export const NewLeagueModal = ({ setNewLeague }) => {
     setLoading(true);
     let formdata = new FormData();
     formdata.append("name", name);
-    formdata.append("isPrivate", isPrivate);
+    formdata.append("isPublic", !isPrivate);
     formdata.append("enrolledCode", isPrivate ? code : null);
     if (selectedPicture !== null && selectedPicture !== undefined) {
       formdata.append("picture", selectedPicture);

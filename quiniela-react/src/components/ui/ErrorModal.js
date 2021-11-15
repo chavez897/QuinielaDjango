@@ -1,4 +1,5 @@
 import React from "react";
+import { ErrorIcon } from "./Icons/ErrorIcon";
 
 export const ErrorModal = ({ close, message }) => {
   return (
@@ -22,20 +23,7 @@ export const ErrorModal = ({ close, message }) => {
             <div className="relative p-6 flex-auto mx-36">
               <div className="mt-3 text-center">
                 <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-red-100">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-6 w-6 text-red-600"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                    />
-                  </svg>
+                  <ErrorIcon />
                 </div>
               </div>
               <p className="text-center text-lg font-bold">Error</p>

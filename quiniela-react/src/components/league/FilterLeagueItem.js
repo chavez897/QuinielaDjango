@@ -1,4 +1,5 @@
 import React from "react";
+import { LockIcon } from "../ui/Icons/LockIcon";
 
 export const FilterLeagueItem = (league) => {
   return (
@@ -14,10 +15,15 @@ export const FilterLeagueItem = (league) => {
             }
           />
         </div>
-        <div className="col-span-4">
+        <div className="col-span-4 flex">
           <h2 className="text-gray-800 text-3xl font-semibold">
             {league.name}
           </h2>
+          {!league.isPublic ? (
+            <div className="mt-2 ml-2">
+              <LockIcon className="mt-2" />
+            </div>
+          ) : null}
         </div>
       </div>
     </div>
