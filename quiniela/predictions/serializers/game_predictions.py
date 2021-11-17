@@ -18,4 +18,4 @@ class GamePredictionsModelSerializer(serializers.ModelSerializer):
             "prediction",
             "scored",
         ]
-        read_only_fields = ('scored')
+        read_only_fields = ('scored',)
