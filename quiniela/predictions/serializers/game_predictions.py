@@ -6,7 +6,6 @@ from quiniela.league.serializers.userprofile_league_enrollment import Userprofil
 
 
 class GamePredictionsModelSerializer(serializers.ModelSerializer):
-    enrollment = UserprofileLeagueEnrollmentModelSerializer(read_only=True)
     game = GamesModelSerializer(read_only=True)
 
     class Meta:

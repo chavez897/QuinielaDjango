@@ -1,8 +1,12 @@
 import React from "react";
+import { useHistory } from "react-router";
 
 export const LeagueItem = (team) => {
+  const history = useHistory();
   const handleClick = () => {
-    console.log(team);
+    history.push({
+      pathname: `/league/${team.leagueInfo.slug}`,
+    });
   };
   return (
     <div
