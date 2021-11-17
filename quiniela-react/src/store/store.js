@@ -4,6 +4,7 @@ import { userReducer } from "../reducers/userReducer";
 import { tokensReducer } from "../reducers/tokensReducer";
 import { myLeagueReducer } from "../reducers/myLeaguesReducer";
 import { leaguesReducer } from "../reducers/leaguesReducer";
+import { selectedLeagueReducer } from "../reducers/selectedLeagueReducer";
 
 const composeEnhancers =
   (typeof window !== "undefined" &&
@@ -15,6 +16,7 @@ const reducers = combineReducers({
   tokens: tokensReducer,
   myLeagues: myLeagueReducer,
   leagues: leaguesReducer,
+  selectedLeague: selectedLeagueReducer,
 });
 
 export const store = createStore(

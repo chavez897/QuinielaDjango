@@ -1,7 +1,9 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import { GameItem } from "./GameItem";
 
 export const GamePredictionsScreen = () => {
+  const leagueInfo = useSelector((state) => state.selectedLeague);
   const predictions = [
     {
       id: 4,
@@ -56,9 +58,19 @@ export const GamePredictionsScreen = () => {
   ];
   return (
     <div>
+      <div className="mt-8 grid grid-cols-2 gap-4">
+        <div className="col-span-1 text-right text-3xl font-bold">
+          Season: 2021
+        </div>
+        <div className="col-span-1 text-left text-3xl font-bold">Week: 11</div>
+      </div>
       <div className="mt-8">
         {predictions.map((prediction) => (
-          <GameItem key={prediction.id} game={prediction} scoreDifference={6} />
+          <GameItem
+            key={prediction.id}
+            game={prediction}
+            scoreDifference={leagueInfo.points}
+          />
         ))}
       </div>
     </div>

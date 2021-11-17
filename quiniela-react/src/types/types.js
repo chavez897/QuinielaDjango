@@ -10,4 +10,7 @@ export const types = {
   deleteMyLeagues: "[MyLeagues] Delete",
 
   searchLeagues: "[Leagues] Search",
+
+  getSelectedLeagueInfo: "[SelectedLeague] Get",
+  deleteSelectedLeague: "[SelectedLeague] Delete",
 };
