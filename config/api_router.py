@@ -45,5 +45,33 @@ urlpatterns = [
             ]
         ),
     ),
+    path(
+        "", 
+        include(
+            [
+                path(
+                    "",
+                    include(
+                        ("quiniela.games.urls", "games"),
+                        namespace="games",
+                    ),
+                ),
+            ]
+        ),
+    ),
+    path(
+        "", 
+        include(
+            [
+                path(
+                    "",
+                    include(
+                        ("quiniela.predictions.urls", "predictions"),
+                        namespace="preditcions",
+                    ),
+                ),
+            ]
+        ),
+    ),
 
 ]

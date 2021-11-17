@@ -77,6 +77,8 @@ THIRD_PARTY_APPS = [
 LOCAL_APPS = [
     "quiniela.users.apps.UsersConfig",
     "quiniela.league.apps.LeagueAppConfig",
+    "quiniela.games.apps.GamesAppConfig",
+    "quiniela.predictions.apps.PredictionsAppConfig"
     # Your stuff: custom apps go here
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
