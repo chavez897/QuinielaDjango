@@ -14,13 +14,13 @@ export const NewLeagueForm = ({
   return (
     <div className="relative p-6 flex-auto">
       <div className=" grid grid-cols-2 gap-4">
-        <div className="col-span-1">
+        <div className="col-span-2 mb-2 md:mb-0 md:col-span-1 ">
           <PictureInput
             selectedPicture={selectedPicture}
             setSelectedPicture={setSelectedPicture}
           />
         </div>
-        <div className="col-span-1">
+        <div className="col-span-2 md:col-span-1">
           <div className="mb-4 flex">
             <label
               className="block text-gray-700 text-sm font-bold mb-2 mt-2 mr-5"

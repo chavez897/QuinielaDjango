@@ -12,7 +12,7 @@ export const FilterLeagueItem = (league) => {
       ) : null}
       <div className="px-4 py-2 bg-white shadow-lg rounded-lg w-full h-30 mr-8 border-4 border-light-blue-500 border-opacity-100 cursor-pointer">
         <div className="grid grid-cols-6 gap-1">
-          <div className="col-span-1">
+          <div className="col-span-2 md:col-span-1">
             <img
               className="w-16 h-16 object-cover rounded-full"
               alt="asdf"
@@ -32,7 +32,8 @@ export const FilterLeagueItem = (league) => {
               </div>
             ) : null}
           </div>
-          <div className="col-span-1 mt-3 ml-5">
+          <div className="block md:hidden col-span-2"></div>
+          <div className="col-span-1 mt-3 ml-5 block mx-auto -mt-7 md:mt-3">
             <div className="bg-green-400 text-sm leading-none rounded-full inline-flex ">
               <button
                 className="inline-flex items-center transition-colors duration-300 ease-in focus:outline-none text-white rounded-l-full px-4 py-2 active"

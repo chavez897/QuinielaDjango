@@ -5,7 +5,7 @@ export const UserCard = () => {
   const user = useSelector((state) => state.user);
   return (
     <div>
-      <div className="max-w-sm rounded overflow-hidden shadow-lg">
+      <div className="max-w-sm rounded overflow-hidden shadow-lg w-full block mx-auto">
         <img
           className="w-full"
           src={user.userprofile.picture}

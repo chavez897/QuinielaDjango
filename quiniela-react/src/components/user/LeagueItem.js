@@ -14,7 +14,7 @@ export const LeagueItem = (team) => {
       className="px-4 py-2 bg-white shadow-lg rounded-lg w-full h-30 mr-8 border-4 border-light-blue-500 border-opacity-100 cursor-pointer"
     >
       <div className="grid grid-cols-6 gap-1">
-        <div className="col-span-1">
+        <div className="col-span-1 hidden md:block">
           <img
             className="w-16 h-16 object-cover rounded-full"
             alt="asdf"
