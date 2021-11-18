@@ -1,16 +1,65 @@
-import React from "react";
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
+import { saveMyPredictions } from "../../actions/predictions";
+import { ErrorModal } from "../ui/ErrorModal";
+import { LoadingModal } from "../ui/LoadingModal";
+import { SuccessModal } from "../ui/SuccessModal";
 import { GameItem } from "./GameItem";
 
 export const GamePredictionsScreen = () => {
   const predictions = useSelector((state) => state.predictions);
   const leagueInfo = useSelector((state) => state.selectedLeague);
+  const [saving, setSaving] = useState(false);
+  const [succesfull, setSuccesfull] = useState(false);
+  const [error, setError] = useState(false);
+  const [modalMessage, setModalMessage] = useState("");
   const handleSave = () => {
-    console.log(predictions);
+    setSaving(true);
+    let sendPredicitons = [];
+    predictions.forEach((element) => {
+      sendPredicitons.push({
+        id: element.id,
+        prediction: element.prediction,
+      });
+    });
+    const data = {
+      idLeague: leagueInfo.id,
+      predictions: sendPredicitons,
+    };
+    saveMyPredictions(data)
+      .then(() => {
+        setSaving(false);
+        setModalMessage("Predictions saved. Good Luck!");
+        setSuccesfull(true);
+      })
+      .catch((error) => {
+        setSaving(false);
+        setModalMessage(
+          error.length <= 0 ? "Error please try again" : error[0].message
+        );
+        setError(true);
+      });
   };
 
   return (
     <div>
+      {saving && <LoadingModal />}
+      {succesfull ? (
+        <SuccessModal
+          message={modalMessage}
+          close={() => {
+            setSuccesfull(false);
+          }}
+        />
+      ) : null}
+      {error ? (
+        <ErrorModal
+          message={modalMessage}
+          close={() => {
+            setError(false);
+          }}
+        />
+      ) : null}
       <div className="mt-8 grid grid-cols-2 gap-4">
         <div className="col-span-1 text-right text-3xl font-bold">
           Season: 2021

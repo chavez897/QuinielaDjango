@@ -1,6 +1,19 @@
 import { types } from "../types/types";
 import { axiosInstance } from "../plugins/axios";
 
+export const saveMyPredictions = (data) => {
+  return new Promise((resolve, reject) => {
+    axiosInstance
+      .post("/api/game-predictions/save-predictions/", data)
+      .then((res) => {
+        resolve(res);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+};
+
 export const getMyPredictions = (idLeague) => {
   return (dispatch) => {
     return new Promise((resolve, reject) => {
