@@ -3,9 +3,12 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
-from quiniela.predictions.serializers.game_predictions import GamePredictionsModelSerializer
+from quiniela.predictions.serializers.game_predictions import (
+    GamePredictionsModelSerializer, 
+    SavePredictionsSerializer, 
+    CurrentWeekPredictionsSerializer
+)
 from quiniela.predictions.models.game_predictions import GamePredictions
-from quiniela.predictions.serializers.game_predictions import CurrentWeekPredictionsSerializer
 
 
 class GamePredictionsViewSet(
@@ -25,6 +28,15 @@ class GamePredictionsViewSet(
     
     @action(detail=False, methods=["post"], url_path="current-week")
     def current_week(self, request):
-        serializer = CurrentWeekPredictionsSerializer(data=request.data)
+        request.data["id_user"] = request.user.id
+        serializer = CurrentWeekPredictionsSerializer(data=request.data, context={'request': request})
+        serializer.is_valid(raise_exception=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    
+
+    @action(detail=False, methods=["post"], url_path="save-predictions")
+    def save_predictions(self, request):
+        request.data["id_user"] = request.user.id
+        serializer = SavePredictionsSerializer(data=request.data, context={'request': request})
         serializer.is_valid(raise_exception=True)
         return Response(serializer.data, status=status.HTTP_200_OK)

@@ -1,11 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { predictGameAction } from "../../actions/predictions";
 
-export const GamePredictionItem = ({
-  difference,
-  selected,
-  setSelected,
-  gameId,
-}) => {
+export const GamePredictionItem = ({ difference, prediction }) => {
+  const dispatch = useDispatch();
   const disabled = false;
   const options = [
     { text: "Winner by more than " + difference, value: "AG" },
@@ -13,6 +11,7 @@ export const GamePredictionItem = ({
     { text: "Winner by less or equal than " + difference, value: "HL" },
     { text: "Winner by more than " + difference, value: "HG" },
   ];
+  const [tempPrediction, setTempPrediction] = useState(prediction.prediction);
   return (
     <div className="w-full grid grid-cols-4 gap-1">
       {options.map((choice, index) => (
@@ -21,12 +20,13 @@ export const GamePredictionItem = ({
             <input
               type="radio"
               className="form-radio"
-              name={"prediction" + gameId}
+              name={"prediction" + prediction.id}
               value={choice.value}
               disabled={disabled}
-              checked={selected === choice.value}
+              checked={tempPrediction === choice.value}
               onChange={() => {
-                setSelected(choice.value);
+                setTempPrediction(choice.value);
+                dispatch(predictGameAction(prediction.id, choice.value));
               }}
             />
             <span className="ml-2 text-xs">{choice.text}</span>

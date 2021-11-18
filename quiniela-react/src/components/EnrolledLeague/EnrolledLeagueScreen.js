@@ -4,16 +4,32 @@ import { TabsComponent } from "../ui/TabsComponent";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getSelectedLeagueInfo } from "../../actions/selectedLeague";
+import { getMyPredictions } from "../../actions/predictions";
+import { LoadingComponent } from "../ui/LoadingComponent";
 
 export const EnrolledLeagueScreen = () => {
   const [tabSelected, setTabSelected] = useState(1);
+  const [isLoading, setIsLoading] = useState(true);
   const tabs = ["Standings", "Current Week"];
   const { league } = useParams();
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(getSelectedLeagueInfo(league));
+    setIsLoading(true);
+    dispatch(getSelectedLeagueInfo(league)).then((res) => {
+      dispatch(getMyPredictions(res.data.id)).then((res) => {
+        setIsLoading(false);
+      });
+    });
   }, [dispatch, league]);
   const leagueInfo = useSelector((state) => state.selectedLeague);
+
+  if (isLoading) {
+    return (
+      <div className=" mt-8 px-8 py-8 bg-white shadow-lg rounded-lg w-full">
+        <LoadingComponent />
+      </div>
+    );
+  }
   return (
     <div className=" mt-8 px-8 py-8 bg-white shadow-lg rounded-lg w-full">
       <div className="text-center">

@@ -3,59 +3,12 @@ import { useSelector } from "react-redux";
 import { GameItem } from "./GameItem";
 
 export const GamePredictionsScreen = () => {
+  const predictions = useSelector((state) => state.predictions);
   const leagueInfo = useSelector((state) => state.selectedLeague);
-  const predictions = [
-    {
-      id: 4,
-      enrollment: 1,
-      game: {
-        id: 1,
-        homeTeam: {
-          id: 1,
-          city: "Arizona",
-          name: "Cardinals",
-          logo: "http://localhost:8000/media/nfl_teams/logo/2021/11/17/Arizona.png",
-        },
-        awayTeam: {
-          id: 2,
-          city: "Ravens",
-          name: "Baltimore",
-          logo: "http://localhost:8000/media/nfl_teams/logo/2021/11/17/baltimore-ravens-logo.png",
-        },
-        season: 2021,
-        week: 11,
-        homeScore: null,
-        awayScore: null,
-      },
-      prediction: null,
-      scored: false,
-    },
-    {
-      id: 5,
-      enrollment: 1,
-      game: {
-        id: 1,
-        homeTeam: {
-          id: 1,
-          city: "Arizona",
-          name: "Cardinals",
-          logo: "http://localhost:8000/media/nfl_teams/logo/2021/11/17/Arizona.png",
-        },
-        awayTeam: {
-          id: 2,
-          city: "Ravens",
-          name: "Baltimore",
-          logo: "http://localhost:8000/media/nfl_teams/logo/2021/11/17/baltimore-ravens-logo.png",
-        },
-        season: 2021,
-        week: 11,
-        homeScore: null,
-        awayScore: null,
-      },
-      prediction: null,
-      scored: false,
-    },
-  ];
+  const handleSave = () => {
+    console.log(predictions);
+  };
+
   return (
     <div>
       <div className="mt-8 grid grid-cols-2 gap-4">
@@ -68,10 +21,17 @@ export const GamePredictionsScreen = () => {
         {predictions.map((prediction) => (
           <GameItem
             key={prediction.id}
-            game={prediction}
+            prediction={prediction}
             scoreDifference={leagueInfo.points}
           />
         ))}
+        <button
+          className="w-full mt-5 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline disabled:opacity-25 disabled:cursor-not-allowed"
+          type="submit"
+          onClick={handleSave}
+        >
+          Save
+        </button>
       </div>
     </div>
   );

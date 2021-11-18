@@ -13,4 +13,8 @@ export const types = {
 
   getSelectedLeagueInfo: "[SelectedLeague] Get",
   deleteSelectedLeague: "[SelectedLeague] Delete",
+
+  getMyPredictions: "[Predictions] Get",
+  deleteMyPredictinos: "[Predictinos] Delete",
+  predictGame: "[Predictinos] Predict",
 };
