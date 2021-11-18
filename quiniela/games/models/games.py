@@ -29,6 +29,13 @@ class Games(BaseModel):
 
     week = models.IntegerField(blank=False, null=False)
 
+    date = models.DateTimeField(
+        verbose_name="Game date",
+        auto_now_add=False,
+        blank=True,
+        null=True,
+    )
+
     home_score = models.IntegerField(blank=True, null=True)
 
     away_score = models.IntegerField(blank=True, null=True)

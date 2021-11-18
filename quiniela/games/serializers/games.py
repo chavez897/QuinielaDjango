@@ -14,6 +14,7 @@ class GamesModelSerializer(serializers.ModelSerializer):
             "away_team",
             "season",
             "week",
+            "date",
             "home_score",
             "away_score"
         ]

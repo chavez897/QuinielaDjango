@@ -6,7 +6,7 @@ from quiniela.games.models.nfl_teams import NflTeams
 
 @admin.register(Games)
 class LeagueModelAdmin(admin.ModelAdmin):
-    list_display = ("id", "week", "season", "home_team", "away_team", "home_score", "away_score")
+    list_display = ("id", "week", "season", "home_team", "away_team", "date", "home_score", "away_score")
     list_display_links = ("id", )
     list_editable = ("home_score", "away_score" )
 
