@@ -78,7 +78,8 @@ LOCAL_APPS = [
     "quiniela.users.apps.UsersConfig",
     "quiniela.league.apps.LeagueAppConfig",
     "quiniela.games.apps.GamesAppConfig",
-    "quiniela.predictions.apps.PredictionsAppConfig"
+    "quiniela.predictions.apps.PredictionsAppConfig",
+    "quiniela.points.apps.PointsAppConfig"
     # Your stuff: custom apps go here
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
@@ -320,7 +321,7 @@ REST_FRAMEWORK = {
     "DEFAULT_FILTER_BACKENDS": [
         "url_filter.integrations.drf.DjangoFilterBackend",
     ],
-    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.LimitOffsetPagination",
     "PAGE_SIZE": 25,
     "EXCEPTION_HANDLER": "rest_framework_friendly_errors.handlers.friendly_exception_handler",
     "DATETIME_FORMAT": "%Y-%m-%dT%H:%M",

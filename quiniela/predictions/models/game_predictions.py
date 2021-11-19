@@ -9,6 +9,7 @@ class Prediction(models.TextChoices):
     AWAY_LESS = "AL", "Away less"
     AWAY_GREATER = "AG", "Away greater"
 
+
 class GamePredictions(BaseModel):
 
     enrollment = models.ForeignKey(
@@ -33,7 +34,7 @@ class GamePredictions(BaseModel):
         null=True,
         blank=True,
     )
-    
+
     scored = models.BooleanField(
         verbose_name="Scored",
         default=False,

@@ -4,9 +4,11 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 
 from quiniela.predictions.serializers.game_predictions import (
-    GamePredictionsModelSerializer, 
-    SavePredictionsSerializer, 
-    CurrentWeekPredictionsSerializer
+    GamePredictionsModelSerializer,
+    SavePredictionsSerializer,
+    CurrentWeekPredictionsSerializer,
+    CreatePredictionsSerializer,
+    ScorePredictionsSerializer,
 )
 from quiniela.predictions.models.game_predictions import GamePredictions
 
@@ -23,20 +25,35 @@ class GamePredictionsViewSet(
     queryset = GamePredictions.objects.filter(is_active=True)
 
     def get_permissions(self):
-        permissions = [ IsAuthenticated ]
+        permissions = [IsAuthenticated]
         return (permission() for permission in permissions)
-    
+
     @action(detail=False, methods=["post"], url_path="current-week")
     def current_week(self, request):
         request.data["id_user"] = request.user.id
-        serializer = CurrentWeekPredictionsSerializer(data=request.data, context={'request': request})
+        serializer = CurrentWeekPredictionsSerializer(
+            data=request.data, context={"request": request}
+        )
         serializer.is_valid(raise_exception=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
-    
 
     @action(detail=False, methods=["post"], url_path="save-predictions")
     def save_predictions(self, request):
         request.data["id_user"] = request.user.id
-        serializer = SavePredictionsSerializer(data=request.data, context={'request': request})
+        serializer = SavePredictionsSerializer(
+            data=request.data, context={"request": request}
+        )
+        serializer.is_valid(raise_exception=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    @action(detail=False, methods=["get"], url_path="create-predictions")
+    def create_predictions(self, request):
+        serializer = CreatePredictionsSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    @action(detail=False, methods=["get"], url_path="score-predictions")
+    def score_predictions(self, request):
+        serializer = ScorePredictionsSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         return Response(serializer.data, status=status.HTTP_200_OK)

@@ -32,7 +32,7 @@ urlpatterns = [
         ),
     ),
     path(
-        "", 
+        "",
         include(
             [
                 path(
@@ -46,7 +46,7 @@ urlpatterns = [
         ),
     ),
     path(
-        "", 
+        "",
         include(
             [
                 path(
@@ -60,7 +60,7 @@ urlpatterns = [
         ),
     ),
     path(
-        "", 
+        "",
         include(
             [
                 path(
@@ -73,5 +73,18 @@ urlpatterns = [
             ]
         ),
     ),
-
+    path(
+        "",
+        include(
+            [
+                path(
+                    "",
+                    include(
+                        ("quiniela.points.urls", "points"),
+                        namespace="points",
+                    ),
+                ),
+            ]
+        ),
+    ),
 ]
