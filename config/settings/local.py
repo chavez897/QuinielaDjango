@@ -152,3 +152,5 @@ LOGGING = {
 }
 
 X_FRAME_OPTIONS = "ALLOWALL"
+
+IS_DEV = True

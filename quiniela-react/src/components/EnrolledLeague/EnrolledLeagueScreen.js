@@ -6,9 +6,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { getSelectedLeagueInfo } from "../../actions/selectedLeague";
 import { getMyPredictions } from "../../actions/predictions";
 import { LoadingComponent } from "../ui/LoadingComponent";
+import { StandingsScreen } from "../standings/StandingsScreen";
+import { getStandings } from "../../actions/standings";
 
 export const EnrolledLeagueScreen = () => {
-  const [tabSelected, setTabSelected] = useState(1);
+  const [tabSelected, setTabSelected] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const tabs = ["Standings", "Current Week"];
   const { league } = useParams();
@@ -16,9 +18,10 @@ export const EnrolledLeagueScreen = () => {
   useEffect(() => {
     setIsLoading(true);
     dispatch(getSelectedLeagueInfo(league)).then((res) => {
-      dispatch(getMyPredictions(res.data.id)).then((res) => {
+      dispatch(getStandings(league)).then(() => {
         setIsLoading(false);
       });
+      dispatch(getMyPredictions(res.data.id));
     });
   }, [dispatch, league]);
   const leagueInfo = useSelector((state) => state.selectedLeague);
@@ -45,6 +48,7 @@ export const EnrolledLeagueScreen = () => {
         />
       </div>
       <div>{tabSelected === 1 && <GamePredictionsScreen />}</div>
+      <div>{tabSelected === 0 && <StandingsScreen />}</div>
     </div>
   );
 };

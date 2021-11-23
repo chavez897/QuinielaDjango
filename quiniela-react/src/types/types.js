@@ -17,4 +17,7 @@ export const types = {
   getMyPredictions: "[Predictions] Get",
   deleteMyPredictinos: "[Predictinos] Delete",
   predictGame: "[Predictinos] Predict",
+
+  getStandings: "[Standings] Get",
+  deleteStandings: "[Standings] Delete",
 };

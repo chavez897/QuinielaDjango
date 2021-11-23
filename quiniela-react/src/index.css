@@ -35,6 +35,18 @@
   .z-60 {
     z-index: 60;
   }
+
+  .w-18 {
+    width: 4.5rem;
+  }
+
+  .standings-header {
+    height: 75px;
+  }
+
+  .standings-row {
+    height: 75px;
+  }
   
   @-webkit-keyframes spinner {
     0% {
