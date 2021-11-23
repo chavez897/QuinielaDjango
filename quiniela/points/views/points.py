@@ -27,12 +27,20 @@ class PointsViewSet(
     @action(detail=False, methods=["get"], url_path="standings")
     def standings(self, request):
         current_site = Site.objects.get_current()
-
         current = CurrentWeek.objects.get(id=1)
         league = request.GET.get("league")
-        points = Points.objects.filter(
-            enrollment__league__slug=league, season=current.season
-        ).order_by("enrollment__userprofile", "week")
+        points = (
+            Points.objects.filter(
+                enrollment__league__slug=league, season=current.season
+            )
+            .order_by("enrollment__userprofile", "week")
+            .select_related(
+                "enrollment",
+                "enrollment__league",
+                "enrollment__userprofile",
+                "enrollment__userprofile__user",
+            )
+        )
         help_object = {}
         for point in points:
             picture_url = None
