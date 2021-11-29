@@ -9,6 +9,9 @@ import { loginAction } from "../actions/auth";
 import { PoolRouter } from "./PoolRouter";
 import { getUserData } from "../actions/user";
 import { LoadingScreen } from "../components/ui/LoadingScreen";
+import { getCurrentWeek } from "../actions/currentWeek";
+import { AdminRoute } from "./AdminRoute";
+import { AdminRouter } from "./AdminRouter";
 
 export const AppRouter = () => {
   const dispatch = useDispatch();
@@ -19,6 +22,7 @@ export const AppRouter = () => {
     const refresh = localStorage.getItem("refresh");
     if (access !== null && access !== undefined) {
       dispatch(loginAction(access, refresh));
+      dispatch(getCurrentWeek());
       dispatch(getUserData()).then(() => {
         setChecking(false);
       });
@@ -40,6 +44,17 @@ export const AppRouter = () => {
               isAuthenticated={!!user.username}
               path="/auth"
               component={AuthRouter}
+            />
+
+            <AdminRoute
+              role={
+                user.userprofile === undefined ||
+                user.userprofile.role === undefined
+                  ? ""
+                  : user.userprofile.role
+              }
+              path="/admin"
+              component={AdminRouter}
             />
 
             <PrivateRoute

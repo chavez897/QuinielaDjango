@@ -3,10 +3,10 @@ import { useSelector } from "react-redux";
 import { PointsRow } from "./PointsRow";
 
 export const PointsColumns = () => {
-  const currentWeek = 11;
+  const currentWeek = useSelector((state) => state.currentWeek);
   const weeks = useMemo(() => {
     let weeks = [];
-    for (let i = 1; i <= currentWeek; i++) {
+    for (let i = 1; i <= currentWeek.week; i++) {
       weeks.push(i);
     }
     return weeks;

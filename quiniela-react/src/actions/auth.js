@@ -2,6 +2,10 @@ import { types } from "../types/types";
 import { axiosInstance } from "../plugins/axios";
 import { deleteMyLeaguesAction } from "./myLeagues";
 import { deleteUserAction } from "./user";
+import { deleteSelectedLeagueAction } from "./selectedLeague";
+import { deleteMyPredictionsAction } from "./predictions";
+import { deleteStandingsAction } from "./standings";
+import { deleteCurrentWeekAction } from "./currentWeek";
 
 export const login = (email, password) => {
   return (dispatch) => {
@@ -49,6 +53,10 @@ export const logout = () => {
     dispatch(logoutAction());
     dispatch(deleteMyLeaguesAction());
     dispatch(deleteUserAction());
+    dispatch(deleteSelectedLeagueAction());
+    dispatch(deleteMyPredictionsAction());
+    dispatch(deleteStandingsAction());
+    dispatch(deleteCurrentWeekAction());
   };
 };
 

@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import { getUserData } from "../../actions/user";
 import { useForm } from "../../hooks/useForm";
 import Swal from "sweetalert2";
+import { getCurrentWeek } from "../../actions/currentWeek";
 
 export const LoginScreen = () => {
   const dispatch = useDispatch();
@@ -25,6 +26,7 @@ export const LoginScreen = () => {
     });
     dispatch(login(email, password))
       .then(() => {
+        dispatch(getCurrentWeek());
         dispatch(getUserData()).then(() => {
           Swal.close();
         });

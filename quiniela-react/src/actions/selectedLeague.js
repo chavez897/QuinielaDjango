@@ -29,7 +29,7 @@ export const getSelectedLeagueInfoAction = (res) => ({
   },
 });
 
-export const deleteMyLeaguesAction = () => ({
+export const deleteSelectedLeagueAction = () => ({
   type: types.deleteSelectedLeague,
   payload: null,
 });

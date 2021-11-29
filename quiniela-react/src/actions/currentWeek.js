@@ -1,13 +1,13 @@
 import { types } from "../types/types";
 import { axiosInstance } from "../plugins/axios";
 
-export const getStandings = (league) => {
+export const getCurrentWeek = () => {
   return (dispatch) => {
     return new Promise((resolve, reject) => {
       axiosInstance
-        .get(`/api/points/standings/?league=${league}`)
+        .get(`/api/current-week/1/`)
         .then((res) => {
-          dispatch(getStandingsAction(res.data));
+          dispatch(getCurrentWeekAction(res.data));
           resolve(res);
         })
         .catch((error) => {
@@ -17,12 +17,15 @@ export const getStandings = (league) => {
   };
 };
 
-export const getStandingsAction = (standings) => ({
-  type: types.getStandings,
-  payload: standings,
+export const getCurrentWeekAction = (res) => ({
+  type: types.getWeek,
+  payload: {
+    season: res.season,
+    week: res.week,
+  },
 });
 
-export const deleteStandingsAction = () => ({
-  type: types.deleteStandings,
+export const deleteCurrentWeekAction = () => ({
+  type: types.deleteWeek,
   payload: null,
 });

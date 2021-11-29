@@ -7,6 +7,7 @@ import { leaguesReducer } from "../reducers/leaguesReducer";
 import { selectedLeagueReducer } from "../reducers/selectedLeagueReducer";
 import { predictionsReducer } from "../reducers/predictionsReducer";
 import { standingsReducer } from "../reducers/standings";
+import { currentWeekReducer } from "../reducers/currentWeekReducer";
 
 const composeEnhancers =
   (typeof window !== "undefined" &&
@@ -21,6 +22,7 @@ const reducers = combineReducers({
   selectedLeague: selectedLeagueReducer,
   predictions: predictionsReducer,
   standings: standingsReducer,
+  currentWeek: currentWeekReducer,
 });
 
 export const store = createStore(

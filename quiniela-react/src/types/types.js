@@ -20,4 +20,7 @@ export const types = {
 
   getStandings: "[Standings] Get",
   deleteStandings: "[Standings] Delete",
+
+  getWeek: "[CurrentWeek] Get",
+  deleteWeek: "[CurrentWeek] Delete",
 };
