@@ -76,6 +76,10 @@ THIRD_PARTY_APPS = [
 
 LOCAL_APPS = [
     "quiniela.users.apps.UsersConfig",
+    "quiniela.league.apps.LeagueAppConfig",
+    "quiniela.games.apps.GamesAppConfig",
+    "quiniela.predictions.apps.PredictionsAppConfig",
+    "quiniela.points.apps.PointsAppConfig"
     # Your stuff: custom apps go here
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
@@ -211,6 +215,7 @@ CSRF_COOKIE_HTTPONLY = True
 SECURE_BROWSER_XSS_FILTER = True
 # https://docs.djangoproject.com/en/dev/ref/settings/#x-frame-options
 X_FRAME_OPTIONS = "DENY"
+XS_SHARING_ALLOWED_METHODS = ["POST", "GET", "OPTIONS", "PUT", "DELETE"]
 
 # EMAIL
 # ------------------------------------------------------------------------------
@@ -299,7 +304,7 @@ STATICFILES_FINDERS += ["compressor.finders.CompressorFinder"]
 # -------------------------------------------------------------------------------
 # django-rest-framework - https://www.django-rest-framework.org/api-guide/settings/
 REST_FRAMEWORK = {
-    "DEFAULT_AUTHENTICATION_CLASSES": (
+    "DEFAULT_RENDERER_CLASSES": (
         "djangorestframework_camel_case.render.CamelCaseJSONRenderer",
         "djangorestframework_camel_case.render.CamelCaseBrowsableAPIRenderer",
         "rest_framework.renderers.JSONRenderer",
@@ -316,14 +321,10 @@ REST_FRAMEWORK = {
     "DEFAULT_FILTER_BACKENDS": [
         "url_filter.integrations.drf.DjangoFilterBackend",
     ],
-    "PAGE_SIZE": 24,
+    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.LimitOffsetPagination",
+    "PAGE_SIZE": 25,
     "EXCEPTION_HANDLER": "rest_framework_friendly_errors.handlers.friendly_exception_handler",
     "DATETIME_FORMAT": "%Y-%m-%dT%H:%M",
 }
-
-# django-cors-headers - https://github.com/adamchainz/django-cors-headers#setup
-CORS_URLS_REGEX = r"^/api/.*$"
-# Your stuff...
-# ------------------------------------------------------------------------------
 
 JWT_TOKEN_EXP_DAYS = 7

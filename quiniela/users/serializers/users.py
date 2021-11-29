@@ -8,7 +8,6 @@ User = get_user_model()
 
 
 class UserProfileModelSerializer(serializers.ModelSerializer):
-    """ User Profile Model Serializer. """
 
     class Meta:
         model = UserProfile
@@ -41,3 +40,31 @@ class UserModelSerializer(serializers.ModelSerializer):
 
     def create(self, validated_date):
         return super(UserModelSerializer, self).create(validated_date)
+
+
+class UserPlayerSerializer(serializers.ModelSerializer):
+    """ UserModelSerializer."""
+
+    class Meta:
+        model = User
+        fields = (
+            "id",
+            "username",
+            "name",
+            "last_name",
+            "second_last_name",
+            "email",
+        )
+
+
+class UserProfilePlayerSerializer(serializers.ModelSerializer):
+    """ User Profile Model Serializer. """
+    user = UserPlayerSerializer()
+
+    class Meta:
+        model = UserProfile
+        fields = (
+            "id",
+            "picture",
+            "user",
+        )

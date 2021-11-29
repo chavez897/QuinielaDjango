@@ -4,13 +4,20 @@ volumes:
   local_postgres_data: {}
   local_postgres_data_backups: {}
 
+networks:
+  quiniela_network_local:
+    name: quiniela_network_local
+    driver: bridge
+    ipam:
+      driver: default
+
 services:
   django: &django
     build:
       context: .
       dockerfile: ./compose/local/django/Dockerfile
     image: quiniela_local_django
-    container_name: django
+    container_name: django_quiniela
     depends_on:
       - postgres
       - mailhog
@@ -22,71 +29,86 @@ services:
     ports:
       - "8000:8000"
     command: /start
+    networks:
+      quiniela_network_local:
+        aliases:
+          - django
 
   postgres:
     build:
       context: .
       dockerfile: ./compose/production/postgres/Dockerfile
     image: quiniela_production_postgres
-    container_name: postgres
+    container_name: postgres_quiniela
     volumes:
       - local_postgres_data:/var/lib/postgresql/data:Z
       - local_postgres_data_backups:/backups:z
     env_file:
       - ./.envs/.local/.postgres
-
-  docs:
-    image: quiniela_local_docs
-    container_name: docs
-    build:
-      context: .
-      dockerfile: ./compose/local/docs/Dockerfile
-    env_file:
-      - ./.envs/.local/.django
-    volumes:
-      - ./docs:/docs:z
-      - ./config:/app/config:z
-      - ./quiniela:/app/quiniela:z
     ports:
-      - "7000:7000"
-    command: /start-docs
+      - "5400:5432"
+    networks:
+      quiniela_network_local:
+        aliases:
+          - postgres
 
   mailhog:
     image: mailhog/mailhog:v1.0.0
-    container_name: mailhog
+    container_name: mailhog_quiniela
     ports:
       - "8025:8025"
+    networks:
+      quiniela_network_local:
+        aliases:
+          - mailhog
 
   redis:
     image: redis:5.0
-    container_name: redis
+    container_name: redis_quiniela
+    networks:
+      quiniela_network_local:
+        aliases:
+          - redis
 
   celeryworker:
     <<: *django
     image: quiniela_local_celeryworker
-    container_name: celeryworker
+    container_name: celeryworker_quiniela
     depends_on:
       - redis
       - postgres
       - mailhog
     ports: []
     command: /start-celeryworker
+    networks:
+      quiniela_network_local:
+        aliases:
+          - celeryworker
 
   celerybeat:
     <<: *django
     image: quiniela_local_celerybeat
-    container_name: celerybeat
+    container_name: celerybeat_quiniela
     depends_on:
       - redis
       - postgres
       - mailhog
     ports: []
     command: /start-celerybeat
+    networks:
+      quiniela_network_local:
+        aliases:
+          - celerybeat
 
   flower:
     <<: *django
     image: quiniela_local_flower
-    container_name: flower
+    container_name: flower_quiniela
     ports:
       - "5555:5555"
     command: /start-flower
+    networks:
+      quiniela_network_local:
+        aliases:
+          - flower
+  

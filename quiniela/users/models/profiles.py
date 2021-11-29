@@ -14,25 +14,23 @@ class UserProfileRole(models.Model):
     """
 
     role = models.CharField(
-        verbose_name="Rol",
+        verbose_name="Role",
         unique=True,
         max_length=24,
         primary_key=True,
     )
     created_at = models.DateTimeField(
-        verbose_name="Fecha de creación",
+        verbose_name="Creation Date",
         auto_now_add=True,
-        help_text="Fecha en que el registro fue creado.",
     )
     modified_at = models.DateTimeField(
-        verbose_name="Ultima modificación",
+        verbose_name="Modify Date",
         auto_now=True,
-        help_text="Última fecha en que el registro fue modificado",
     )
 
     class Meta:
-        verbose_name = "Rol de usuario"
-        verbose_name_plural = "Roles de usuarios"
+        verbose_name = "role"
+        verbose_name_plural = "Roles"
 
     def __str__(self):
         """Return role."""
@@ -46,7 +44,7 @@ class UserProfile(BaseModel):
     """
 
     user = models.OneToOneField(
-        verbose_name="Usuario", to="users.User", on_delete=models.CASCADE
+        verbose_name="User", to="users.User", on_delete=models.CASCADE
     )
     picture = models.ImageField(  # noqa DJ01
         verbose_name="Avatar",
@@ -56,7 +54,7 @@ class UserProfile(BaseModel):
         null=True,
     )
     role = models.ForeignKey(
-        verbose_name="Rol de usuario",
+        verbose_name="User Role",
         on_delete=models.CASCADE,
         to="users.UserProfileRole",
         default="admin",
@@ -65,8 +63,8 @@ class UserProfile(BaseModel):
     modified_by = None
 
     class Meta:
-        verbose_name = "Perfil de usuario"
-        verbose_name_plural = "Perfiles de usuarios"
+        verbose_name = "User Profile"
+        verbose_name_plural = "Users Profiles"
 
     def __str__(self):
         """Return user's str representation."""
