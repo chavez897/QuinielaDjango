@@ -1,5 +1,6 @@
-import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getGames, saveGames } from "../../actions/games";
 import { ErrorModal } from "../ui/ErrorModal";
 import { LoadingModal } from "../ui/LoadingModal";
 import { SuccessModal } from "../ui/SuccessModal";
@@ -11,51 +12,37 @@ export const GamesScreen = () => {
   const [succesfull, setSuccesfull] = useState(false);
   const [error, setError] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
-  const games = [
-    {
-      id: 14,
-      homeTeam: {
-        id: 22,
-        city: "Los Angeles",
-        name: "Chargers",
-        logo: "http://localhost:8000/media/nfl_teams/logo/2021/11/18/los-angeles-chargers-logo-2.png",
-      },
-      awayTeam: {
-        id: 30,
-        city: "Pittsburgh",
-        name: "Steelers",
-        logo: "http://localhost:8000/media/nfl_teams/logo/2021/11/18/768px-Pittsburgh_Steelers_logo.svg.png",
-      },
-      season: 2021,
-      week: 11,
-      date: "2021-11-23T19:20",
-      homeScore: 35,
-      awayScore: 5,
-    },
-    {
-      id: 13,
-      homeTeam: {
-        id: 18,
-        city: "Kansas City",
-        name: "Chiefs",
-        logo: "http://localhost:8000/media/nfl_teams/logo/2021/11/18/kansas-city-chiefs-logo.png",
-      },
-      awayTeam: {
-        id: 9,
-        city: "Dallas",
-        name: "Cowboys",
-        logo: "http://localhost:8000/media/nfl_teams/logo/2021/11/18/Dallas_Cowboys.svg.png",
-      },
-      season: 2021,
-      week: 11,
-      date: "2021-11-22T15:25",
-      homeScore: null,
-      awayScore: null,
-    },
-  ];
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getGames(currentWeek.season, currentWeek.week));
+  }, [currentWeek.season, currentWeek.week, dispatch]);
+  const games = useSelector((state) => state.games);
 
   const handleSave = () => {
-    console.log("save");
+    setSaving(true);
+    const data = [];
+    games.forEach((game) => {
+      if (game.homeScore && game.awayScore) {
+        data.push({
+          id: game.id,
+          homeScore: game.homeScore,
+          awayScore: game.awayScore,
+        });
+      }
+    });
+    saveGames(data)
+      .then(() => {
+        setSaving(false);
+        setSuccesfull(true);
+        setModalMessage("Scores Saved!");
+      })
+      .catch((error) => {
+        setSaving(false);
+        setModalMessage(
+          error.length <= 0 ? "Error please try again" : error[0].message
+        );
+        setError(true);
+      });
   };
   return (
     <div>
@@ -89,7 +76,7 @@ export const GamesScreen = () => {
           <GameScoreItem key={game.id} game={game} />
         ))}
         <button
-          className="w-full mt-5 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline disabled:opacity-25 disabled:cursor-not-allowed"
+          className="w-full mt-5 mb-16 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline disabled:opacity-25 disabled:cursor-not-allowed"
           type="submit"
           onClick={handleSave}
         >

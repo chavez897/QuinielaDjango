@@ -13,7 +13,7 @@ export const GameScoreItem = ({ game }) => {
           <TeamItem team={game.homeTeam} />
         </div>
         <div className="col-span-2 mt-2">
-          <ScoreFormItem />
+          <ScoreFormItem game={game} />
         </div>
       </div>
       <hr className="mt-4" />

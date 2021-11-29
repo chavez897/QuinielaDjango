@@ -1,14 +1,12 @@
 from rest_framework import serializers
-from django.db import transaction
 
-from quiniela.predictions.models.game_predictions import GamePredictions, Prediction
+from quiniela.predictions.models.game_predictions import GamePredictions
 from quiniela.games.serializers.games import GamesModelSerializer
 from quiniela.league.models.userprofile_league_enrollment import (
     UserprofileLeagueEnrollment,
 )
 from quiniela.predictions.models.current_week import CurrentWeek
 from quiniela.games.models.games import Games
-from quiniela.predictions.tasks.score_predictions import scorePredictions
 
 
 class GamePredictionsModelSerializer(serializers.ModelSerializer):
@@ -100,10 +98,4 @@ class CreatePredictionsSerializer(serializers.Serializer):
                     )
                 )
         GamePredictions.objects.bulk_create(predictions)
-        return attrs
-
-
-class ScorePredictionsSerializer(serializers.Serializer):
-    def validate(self, attrs):
-        transaction.on_commit(lambda: scorePredictions.delay())
         return attrs

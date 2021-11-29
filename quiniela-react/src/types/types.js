@@ -23,4 +23,8 @@ export const types = {
 
   getWeek: "[CurrentWeek] Get",
   deleteWeek: "[CurrentWeek] Delete",
+
+  getGames: "[Admin Games] Get",
+  deleteGames: "[Admin Games] Delete",
+  changeGameScore: "[Admin Games] Change Game Score",
 };

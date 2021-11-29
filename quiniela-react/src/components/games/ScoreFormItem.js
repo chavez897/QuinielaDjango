@@ -1,12 +1,19 @@
 import React from "react";
+import { useDispatch } from "react-redux";
+import { changeGameScore } from "../../actions/games";
 import { useForm } from "../../hooks/useForm";
 
-export const ScoreFormItem = () => {
+export const ScoreFormItem = ({ game }) => {
+  const dispatch = useDispatch();
   const [formValues, handleInputChange] = useForm({
-    awayScore: "",
-    homeCode: "",
+    awayScore: game.awayScore !== null ? game.awayScore : "",
+    homeScore: game.homeScore !== null ? game.homeScore : "",
   });
   const { awayScore, homeScore } = formValues;
+  const handleScoreChange = (e) => {
+    handleInputChange({ target: e.target });
+    dispatch(changeGameScore(e.target.name, game.id, e.target.value));
+  };
   return (
     <div className="grid grid-cols-2 gap-2 w-full">
       <div className="col-span-1 block mx-auto">
@@ -18,7 +25,7 @@ export const ScoreFormItem = () => {
             placeholder="Score"
             name="awayScore"
             value={awayScore}
-            onChange={handleInputChange}
+            onChange={handleScoreChange}
           />
         </div>
       </div>
@@ -31,7 +38,7 @@ export const ScoreFormItem = () => {
             placeholder="Score"
             name="homeScore"
             value={homeScore}
-            onChange={handleInputChange}
+            onChange={handleScoreChange}
           />
         </div>
       </div>

@@ -10,7 +10,7 @@ export const PointsColumns = () => {
       weeks.push(i);
     }
     return weeks;
-  }, []);
+  }, [currentWeek.week]);
   const standings = useSelector((state) => state.standings);
   const scrollTable = useRef(null);
   useEffect(() => {

@@ -22,10 +22,18 @@ export const AppRouter = () => {
     const refresh = localStorage.getItem("refresh");
     if (access !== null && access !== undefined) {
       dispatch(loginAction(access, refresh));
-      dispatch(getCurrentWeek());
-      dispatch(getUserData()).then(() => {
-        setChecking(false);
-      });
+      dispatch(getCurrentWeek())
+        .then(() => {})
+        .catch(() => {
+          setChecking(false);
+        });
+      dispatch(getUserData())
+        .then(() => {
+          setChecking(false);
+        })
+        .catch(() => {
+          setChecking(false);
+        });
     } else {
       setChecking(false);
     }
