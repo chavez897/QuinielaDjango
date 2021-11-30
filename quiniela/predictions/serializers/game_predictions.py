@@ -6,7 +6,6 @@ from quiniela.league.models.userprofile_league_enrollment import (
     UserprofileLeagueEnrollment,
 )
 from quiniela.predictions.models.current_week import CurrentWeek
-from quiniela.games.models.games import Games
 
 
 class GamePredictionsModelSerializer(serializers.ModelSerializer):
@@ -81,21 +80,4 @@ class SavePredictionsSerializer(serializers.Serializer):
             raise serializers.ValidationError(
                 {"entollment": "Enrollment does not exist"}
             )
-        return attrs
-
-
-class CreatePredictionsSerializer(serializers.Serializer):
-    def validate(self, attrs):
-        enrollments = UserprofileLeagueEnrollment.objects.filter(is_active=True)
-        current = CurrentWeek.objects.get(id=1)
-        games = Games.objects.filter(season=current.season, week=current.week)
-        predictions = []
-        for enrollment in enrollments:
-            for game in games:
-                predictions.append(
-                    GamePredictions(
-                        enrollment=enrollment, game=game, prediction=None, scored=False
-                    )
-                )
-        GamePredictions.objects.bulk_create(predictions)
         return attrs

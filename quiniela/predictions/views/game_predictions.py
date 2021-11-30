@@ -7,7 +7,6 @@ from quiniela.predictions.serializers.game_predictions import (
     GamePredictionsModelSerializer,
     SavePredictionsSerializer,
     CurrentWeekPredictionsSerializer,
-    CreatePredictionsSerializer,
 )
 from quiniela.predictions.models.game_predictions import GamePredictions
 
@@ -42,11 +41,5 @@ class GamePredictionsViewSet(
         serializer = SavePredictionsSerializer(
             data=request.data, context={"request": request}
         )
-        serializer.is_valid(raise_exception=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
-
-    @action(detail=False, methods=["get"], url_path="create-predictions")
-    def create_predictions(self, request):
-        serializer = CreatePredictionsSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         return Response(serializer.data, status=status.HTTP_200_OK)

@@ -1,3 +1,5 @@
+import json
+
 from rest_framework import mixins, viewsets, status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import action
@@ -5,7 +7,11 @@ from rest_framework.response import Response
 from url_filter.integrations.drf import DjangoFilterBackend
 
 from quiniela.games.models.games import Games
-from quiniela.games.serializers.games import GamesModelSerializer, SaveScoresSerializer
+from quiniela.games.serializers.games import (
+    GamesModelSerializer,
+    SaveScoresSerializer,
+    SetWeekSerializer,
+)
 
 
 class GamesViewSet(
@@ -33,5 +39,12 @@ class GamesViewSet(
         serializer = SaveScoresSerializer(
             data=request.data, context={"request": request}
         )
+        serializer.is_valid(raise_exception=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    @action(detail=False, methods=["post"], url_path="set-week")
+    def set_week(self, request):
+        week = request.FILES["week"].read().decode("utf-8")
+        serializer = SetWeekSerializer(data=json.loads(week))
         serializer.is_valid(raise_exception=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
