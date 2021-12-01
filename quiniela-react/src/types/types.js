@@ -27,4 +27,8 @@ export const types = {
   getGames: "[Admin Games] Get",
   deleteGames: "[Admin Games] Delete",
   changeGameScore: "[Admin Games] Change Game Score",
+
+  getGeneralConfiguration: "[General Configuration] get",
+  deleteGeneralConfiguration: "[General Configuration] delete",
+  editGeneralConfiguration: "[General Configuration] edit",
 };

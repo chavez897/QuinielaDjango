@@ -1,5 +1,6 @@
 import React from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
+import { AdminLeagueScreen } from "../components/AdminLeague/AdminLeagueScreen";
 import { EnrolledLeagueScreen } from "../components/EnrolledLeague/EnrolledLeagueScreen";
 
 import { HomeScreen } from "../components/home/HomeScreen";
@@ -18,6 +19,11 @@ export const PoolRouter = () => {
             exact
             path="/league/:league"
             component={EnrolledLeagueScreen}
+          />
+          <Route
+            exact
+            path="/admin-league/:league"
+            component={AdminLeagueScreen}
           />
 
           <Redirect to="/home" />
