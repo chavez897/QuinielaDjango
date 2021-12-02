@@ -1,45 +1,48 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import Select from "react-select";
 import {
   editGeneralConfigurationQuestionAction,
   removeQuestionGeneralConfigurationLeagueAction,
 } from "../../actions/GeneralConfiguration";
-import { useForm } from "../../hooks/useForm";
+
 import { XCircle } from "../ui/Icons/XCircle";
 
-export const GeneralQuestionItem = ({ question, teams }) => {
+export const GeneralQuestionItem = ({ id, teams }) => {
   const dispatch = useDispatch();
-  const [formValues, handleInputChange] = useForm({
-    questionText: question.question,
-  });
-  const [answer, setAnswer] = useState();
-  const { questionText } = formValues;
+  const question = useSelector((state) =>
+    state.generalConfigurationLeague.questions.find((item) => item.id === id)
+  );
   useEffect(() => {
     const initialAnswer = teams.find((team) => team.value === question.answer);
-    setAnswer(initialAnswer);
-  }, [dispatch, question.answer, question.id, teams]);
-
-  const handleAnswerChange = (selected) => {
-    setAnswer(selected);
     dispatch(
       editGeneralConfigurationQuestionAction({
-        id: question.id,
+        id: id,
+        answerObject: initialAnswer,
+      })
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const handleAnswerChange = (selected) => {
+    dispatch(
+      editGeneralConfigurationQuestionAction({
+        id: id,
         answer: selected.value,
+        answerObject: selected,
       })
     );
   };
   const handleQuestionChange = (e) => {
-    handleInputChange(e);
     dispatch(
       editGeneralConfigurationQuestionAction({
-        id: question.id,
+        id: id,
         question: e.target.value,
       })
     );
   };
   const handleRemove = () => {
-    dispatch(removeQuestionGeneralConfigurationLeagueAction(question.id));
+    dispatch(removeQuestionGeneralConfigurationLeagueAction(id));
   };
   return (
     <>
@@ -58,7 +61,7 @@ export const GeneralQuestionItem = ({ question, teams }) => {
               type="text"
               placeholder="question"
               name="questionText"
-              value={questionText}
+              value={question.question}
               onChange={handleQuestionChange}
             />
             <label
@@ -72,13 +75,13 @@ export const GeneralQuestionItem = ({ question, teams }) => {
               options={teams}
               maxMenuHeight={200}
               placeholder="Team"
-              value={answer}
+              value={question.answerObject}
               onChange={handleAnswerChange}
             />
           </div>
         </div>
         <div
-          className="col-span-1 block mx-auto my-auto text-red-500"
+          className="col-span-1 block mx-auto my-auto text-red-500 cursor-pointer"
           onClick={handleRemove}
         >
           <XCircle />

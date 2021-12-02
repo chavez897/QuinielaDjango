@@ -7,35 +7,37 @@ export const generalConfigurationLeagueReducer = (
   switch (action.type) {
     case types.getGeneralConfiguration:
       return {
-        records: true,
+        records: state.records,
         questions: [...action.payload.questions],
       };
     case types.deleteGeneralConfiguration:
-      return { records: true, questions: [] };
+      return { records: state.records, questions: [] };
     case types.editGeneralConfiguration:
-      const index = state.questions.findIndex((question) => {
-        return question.id === action.payload.id;
-      });
-      if (state.questions[index]) {
-        state.questions[index].question = action.payload.question
-          ? action.payload.question
-          : state.questions[index].question;
-        state.questions[index].answer = action.payload.answer
-          ? action.payload.answer
-          : state.questions[index].answer;
-        state.questions[index].answerObject = action.payload.answerObject
-          ? action.payload.answerObject
-          : state.questions[index].answerObject;
-      }
-      return state;
+      return {
+        records: state.records,
+        questions: state.questions.map((item) => {
+          if (item.id === action.payload.id) {
+            item.question = action.payload.question
+              ? action.payload.question
+              : item.question;
+            item.answer = action.payload.answer
+              ? action.payload.answer
+              : item.answer;
+            item.answerObject = action.payload.answerObject
+              ? action.payload.answerObject
+              : item.answerObject;
+          }
+          return item;
+        }),
+      };
     case types.addQuestionGeneralConfiguration:
       return {
-        records: true,
+        records: state.records,
         questions: [...state.questions, action.payload],
       };
     case types.removeQuestion:
       return {
-        records: true,
+        records: state.records,
         questions: state.questions.filter((item) => item.id !== action.payload),
       };
     default:

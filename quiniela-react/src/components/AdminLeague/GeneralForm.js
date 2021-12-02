@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   addQuestionGeneralConfigurationLeagueAction,
   getGeneralConfigurationLeagueAction,
-  removeQuestionGeneralConfigurationLeagueAction,
 } from "../../actions/GeneralConfiguration";
 import { AddIcon } from "../ui/Icons/AddIcon";
 import { GeneralQuestionItem } from "./GeneralQuestionItem";
@@ -17,6 +16,7 @@ export const GeneralForm = () => {
           id: new Date().valueOf(),
           question: "Mejor Ofensiva",
           answer: 1,
+          answerObject: {},
         },
       ])
     );
@@ -27,6 +27,7 @@ export const GeneralForm = () => {
         id: new Date().valueOf(),
         question: "",
         answer: "",
+        answerObject: {},
       })
     );
   };
@@ -43,7 +44,7 @@ export const GeneralForm = () => {
       <h4 className="text-gray-800 text-2xl font-semibold">General Round</h4>
       <hr />
       {general.questions.map((item) => (
-        <GeneralQuestionItem key={item.id} question={item} teams={teams} />
+        <GeneralQuestionItem key={item.id} id={item.id} teams={teams} />
       ))}
       <div className="w-full mt-3">
         <button
