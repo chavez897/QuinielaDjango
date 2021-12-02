@@ -33,6 +33,11 @@ export const generalConfigurationLeagueReducer = (
         records: true,
         questions: [...state.questions, action.payload],
       };
+    case types.removeQuestion:
+      return {
+        records: true,
+        questions: state.questions.filter((item) => item.id !== action.payload),
+      };
     default:
       return state;
   }

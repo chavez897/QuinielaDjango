@@ -32,4 +32,5 @@ export const types = {
   deleteGeneralConfiguration: "[General Configuration] delete",
   editGeneralConfiguration: "[General Configuration] edit",
   addQuestionGeneralConfiguration: "[General Configuration] add",
+  removeQuestion: "[General Configuration] remove",
 };

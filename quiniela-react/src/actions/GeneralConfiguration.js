@@ -16,3 +16,8 @@ export const editGeneralConfigurationQuestionAction = (data) => ({
   type: types.editGeneralConfiguration,
   payload: data,
 });
+
+export const removeQuestionGeneralConfigurationLeagueAction = (id) => ({
+  type: types.removeQuestion,
+  payload: id,
+});

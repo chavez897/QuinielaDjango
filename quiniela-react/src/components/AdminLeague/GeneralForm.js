@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   addQuestionGeneralConfigurationLeagueAction,
   getGeneralConfigurationLeagueAction,
+  removeQuestionGeneralConfigurationLeagueAction,
 } from "../../actions/GeneralConfiguration";
 import { AddIcon } from "../ui/Icons/AddIcon";
 import { GeneralQuestionItem } from "./GeneralQuestionItem";
