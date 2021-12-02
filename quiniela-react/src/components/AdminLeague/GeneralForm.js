@@ -1,37 +1,47 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import { getGeneralConfigurationLeagueAction } from "../../actions/GeneralConfiguration";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  addQuestionGeneralConfigurationLeagueAction,
+  getGeneralConfigurationLeagueAction,
+} from "../../actions/GeneralConfiguration";
 import { AddIcon } from "../ui/Icons/AddIcon";
 import { GeneralQuestionItem } from "./GeneralQuestionItem";
 
-export const GeneralForm = ({ league }) => {
+export const GeneralForm = () => {
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(getGeneralConfigurationLeagueAction([]));
-  }, [dispatch, league]);
-  const [questions, setQuestions] = useState([]);
+    dispatch(
+      getGeneralConfigurationLeagueAction([
+        {
+          id: new Date().valueOf(),
+          question: "Mejor Ofensiva",
+          answer: 1,
+        },
+      ])
+    );
+  }, [dispatch]);
   const addQuestion = () => {
-    setQuestions((prev) => [
-      ...prev,
-      {
+    dispatch(
+      addQuestionGeneralConfigurationLeagueAction({
         id: new Date().valueOf(),
         question: "",
         answer: "",
-      },
-    ]);
+      })
+    );
   };
   const teams = [
     { value: 1, label: "San Francisco 49ers" },
     { value: 2, label: "Dallas Cowboys" },
   ];
+  const general = useSelector((state) => state.generalConfigurationLeague);
   const handleSave = () => {
-    console.log(questions);
+    console.log(general);
   };
   return (
     <>
-      <h4 className="text-gray-800 text-2xl font-semibold">General</h4>
+      <h4 className="text-gray-800 text-2xl font-semibold">General Round</h4>
       <hr />
-      {questions.map((item) => (
+      {general.questions.map((item) => (
         <GeneralQuestionItem key={item.id} question={item} teams={teams} />
       ))}
       <div className="w-full mt-3">

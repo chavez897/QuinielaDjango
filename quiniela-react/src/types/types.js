@@ -31,4 +31,5 @@ export const types = {
   getGeneralConfiguration: "[General Configuration] get",
   deleteGeneralConfiguration: "[General Configuration] delete",
   editGeneralConfiguration: "[General Configuration] edit",
+  addQuestionGeneralConfiguration: "[General Configuration] add",
 };

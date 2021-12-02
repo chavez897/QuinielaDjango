@@ -1,28 +1,38 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import Select from "react-select";
+import { editGeneralConfigurationQuestionAction } from "../../actions/GeneralConfiguration";
 import { useForm } from "../../hooks/useForm";
 
 export const GeneralQuestionItem = ({ question, teams }) => {
-  const [stateQuestion, setStateQuestion] = useState(question);
-  useEffect(() => {
-    const initialAnswer = teams.find((team) => team.value === question.answer);
-    setStateQuestion({
-      ...stateQuestion,
-      answer: initialAnswer,
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
+  const dispatch = useDispatch();
   const [formValues, handleInputChange] = useForm({
     questionText: question.question,
   });
+  const [answer, setAnswer] = useState();
   const { questionText } = formValues;
+  useEffect(() => {
+    const initialAnswer = teams.find((team) => team.value === question.answer);
+    setAnswer(initialAnswer);
+  }, [dispatch, question.answer, question.id, teams]);
 
   const handleAnswerChange = (selected) => {
-    setStateQuestion({
-      ...stateQuestion,
-      answer: selected,
-    });
+    setAnswer(selected);
+    dispatch(
+      editGeneralConfigurationQuestionAction({
+        id: question.id,
+        answer: selected.value,
+      })
+    );
+  };
+  const handleQuestionChange = (e) => {
+    handleInputChange(e);
+    dispatch(
+      editGeneralConfigurationQuestionAction({
+        id: question.id,
+        question: e.target.value,
+      })
+    );
   };
   return (
     <>
@@ -40,7 +50,7 @@ export const GeneralQuestionItem = ({ question, teams }) => {
           placeholder="question"
           name="questionText"
           value={questionText}
-          onChange={handleInputChange}
+          onChange={handleQuestionChange}
         />
         <label
           className="block text-gray-700 text-sm font-bold mb-2 mt-2 mr-5 col-span-2 md:col-span-1 md:block md:mx-auto"
@@ -53,7 +63,7 @@ export const GeneralQuestionItem = ({ question, teams }) => {
           options={teams}
           maxMenuHeight={200}
           placeholder="Team"
-          value={stateQuestion.answer}
+          value={answer}
           onChange={handleAnswerChange}
         />
       </div>
