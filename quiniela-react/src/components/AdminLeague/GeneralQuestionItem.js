@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Select from "react-select";
 import {
@@ -13,16 +13,6 @@ export const GeneralQuestionItem = ({ id, teams }) => {
   const question = useSelector((state) =>
     state.generalConfigurationLeague.questions.find((item) => item.id === id)
   );
-  useEffect(() => {
-    const initialAnswer = teams.find((team) => team.value === question.answer);
-    dispatch(
-      editGeneralConfigurationQuestionAction({
-        id: id,
-        answerObject: initialAnswer,
-      })
-    );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   const handleAnswerChange = (selected) => {
     dispatch(

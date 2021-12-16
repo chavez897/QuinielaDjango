@@ -47,8 +47,8 @@ export const EnrolledLeagueScreen = () => {
           setTabSelected={setTabSelected}
         />
       </div>
-      <div>{tabSelected === 1 && <GamePredictionsScreen />}</div>
       <div>{tabSelected === 0 && <StandingsScreen />}</div>
+      <div>{tabSelected === 1 && <GamePredictionsScreen />}</div>
     </div>
   );
 };

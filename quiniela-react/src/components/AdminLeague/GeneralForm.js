@@ -1,26 +1,12 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  addQuestionGeneralConfigurationLeagueAction,
-  getGeneralConfigurationLeagueAction,
-} from "../../actions/GeneralConfiguration";
+import { addQuestionGeneralConfigurationLeagueAction } from "../../actions/GeneralConfiguration";
 import { AddIcon } from "../ui/Icons/AddIcon";
+import { SwitchComponent } from "../ui/SwitchComponent";
 import { GeneralQuestionItem } from "./GeneralQuestionItem";
 
 export const GeneralForm = () => {
   const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(
-      getGeneralConfigurationLeagueAction([
-        {
-          id: new Date().valueOf(),
-          question: "Mejor Ofensiva",
-          answer: 1,
-          answerObject: {},
-        },
-      ])
-    );
-  }, [dispatch]);
   const addQuestion = () => {
     dispatch(
       addQuestionGeneralConfigurationLeagueAction({
@@ -39,10 +25,14 @@ export const GeneralForm = () => {
   const handleSave = () => {
     console.log(general);
   };
+  console.log(general);
   return (
     <>
-      <h4 className="text-gray-800 text-2xl font-semibold">General Round</h4>
-      <hr />
+      {/* <SwitchComponent
+        toggle={teamRe}
+        setToggle={setTeamRecords}
+        label="Team Records"
+      /> */}
       {general.questions.map((item) => (
         <GeneralQuestionItem key={item.id} id={item.id} teams={teams} />
       ))}
